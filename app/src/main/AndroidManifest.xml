@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bagicode.alfa3">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.noActionBar">
+        <activity android:name=".riwayat.RiwayatActivity" />
+        <activity android:name=".home.tim.TimActivity" />
+        <activity android:name=".home.pudding.PuddingActivity" />
+        <activity android:name=".home.bubur.BuburActivity" />
+        <activity android:name=".home.bubur.DetailBuburBesarActivity"/>
+        <activity android:name=".home.bubur.DetailBuburKecilActivity"/>
+        <activity android:name=".home.tim.DetailTimBesarActivity"/>
+        <activity android:name=".home.tim.DetailTimKecilActivity"/>
+        <activity android:name=".home.pudding.DetailPuddingActivity"/>
+        <activity android:name=".log.register.RegisterPhotoscreenActivity" />
+        <activity android:name=".log.login.RegisterActivity" />
+        <activity android:name=".home.HomeActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".log.login.LoginActivity" />
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

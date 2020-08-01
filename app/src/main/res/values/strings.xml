@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Alfa3</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="masuk_akun">Masuk</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registrasi">Registrasi</string>
+    <string name="nomor">Nomor</string>
+</resources>

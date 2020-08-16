@@ -4,7 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.bagicode.alfa3.home.HomeActivity
+import com.bagicode.alfa3.log.login.LoginActivity
+
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -15,7 +16,7 @@ class SplashScreenActivity : AppCompatActivity() {
         var handler = Handler()
         handler.postDelayed({
             val intent = Intent(this@SplashScreenActivity,
-                HomeActivity::class.java)
+                LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 5000)

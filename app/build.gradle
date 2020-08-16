@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:4.3.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'com.github.dhaval2404:imagepicker:1.5'
 
 
     implementation 'com.google.firebase:firebase-storage:16.0.4'

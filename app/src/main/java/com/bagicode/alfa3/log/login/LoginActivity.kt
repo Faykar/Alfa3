@@ -77,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
                         preferences.setValues("nama", user.nama.toString())
                         preferences.setValues("user", user.username.toString())
                         preferences.setValues("url", user.url.toString())
-                        preferences.setValues("email", user.email.toString())
+                        preferences.setValues("nomor", user.nomor.toString())
                         preferences.setValues("status", "1")
 
                         finishAffinity()

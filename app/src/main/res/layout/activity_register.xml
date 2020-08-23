@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryLight"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLight"
     tools:context=".log.login.RegisterActivity">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="346dp"
         android:layout_height="582dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="64dp"
         android:alpha="0.7"
         android:background="@drawable/shape_form_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
@@ -144,6 +146,8 @@
         android:layout_height="34dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="101dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_back" />
@@ -152,7 +156,6 @@
         android:id="@+id/textView6"
         android:layout_width="140dp"
         android:layout_height="34dp"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="121dp"
         android:text="@string/registrasi"
@@ -161,8 +164,6 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
         app:layout_constraintTop_toTopOf="parent" />
 
 

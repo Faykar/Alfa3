@@ -26,13 +26,14 @@ class LoginActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance().getReference("User")
         preferences = Preferences(this)
 
-        preferences.setValues("home","1")
+        preferences.setValues("home", "1")
         if(preferences.getValues("status").equals("1")){
             finishAffinity()
 
             val intent = Intent(this@LoginActivity,
             HomeActivity::class.java)
             startActivity(intent)
+
         }
 
         btn_login.setOnClickListener {
@@ -72,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
                 } else {
                     if (user.password.equals(iPassword)){
-                        Toast.makeText(this@LoginActivity, "Selamat Datang", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@LoginActivity, "Selamat Datang", Toast.LENGTH_SHORT).show()
 
                         preferences.setValues("nama", user.nama.toString())
                         preferences.setValues("user", user.username.toString())

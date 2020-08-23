@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.log.logout.LogoutActivity
 import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -37,14 +38,24 @@ class ProfileFragment : Fragment() {
         tv_user.text = preferences.getValues("nama")
         tv_nomor.text = preferences.getValues("nomor")
 
+        val takeImage = preferences.getValues("url")
+
+
         Glide.with(this)
-            .load(preferences.getValues("url"))
+            .load(takeImage)
             .apply(RequestOptions.circleCropTransform())
             .into(iv_profile)
 
+
+
         tvEdit.setOnClickListener{
-//            startActivity(Intent(activity, EditProfileActivity::class.java))
+            startActivity(Intent(activity, EditProfileActivity::class.java))
         }
+
+        tvLogout.setOnClickListener {
+            startActivity(Intent(activity, LogoutActivity::class.java))
+        }
+
     }
 
 }

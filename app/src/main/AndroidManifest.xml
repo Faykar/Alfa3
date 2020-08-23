@@ -21,20 +21,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.noActionBar">
+        <activity android:name=".home.EditProfileActivity"></activity>
         <activity android:name=".riwayat.RiwayatActivity" />
         <activity android:name=".home.tim.TimActivity" />
         <activity android:name=".home.pudding.PuddingActivity" />
         <activity android:name=".home.bubur.BuburActivity" />
-        <activity android:name=".home.bubur.DetailBuburBesarActivity"/>
-        <activity android:name=".home.bubur.DetailBuburKecilActivity"/>
-        <activity android:name=".home.tim.DetailTimBesarActivity"/>
-        <activity android:name=".home.tim.DetailTimKecilActivity"/>
-        <activity android:name=".home.pudding.DetailPuddingActivity"/>
+        <activity android:name=".home.bubur.DetailBuburBesarActivity" />
+        <activity android:name=".home.bubur.DetailBuburKecilActivity" />
+        <activity android:name=".home.tim.DetailTimBesarActivity" />
+        <activity android:name=".home.tim.DetailTimKecilActivity" />
+        <activity android:name=".home.pudding.DetailPuddingActivity" />
         <activity android:name=".log.register.RegisterPhotoscreenActivity" />
         <activity android:name=".log.login.RegisterActivity" />
         <activity android:name=".home.HomeActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".log.login.LoginActivity" />
+        <activity android:name=".log.logout.LogoutActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

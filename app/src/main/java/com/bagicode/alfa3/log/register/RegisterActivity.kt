@@ -92,12 +92,13 @@ class RegisterActivity : AppCompatActivity() {
 
                 preferences.setValues("nama", data.nama.toString())
                 preferences.setValues("user", data.username.toString())
-                preferences.setValues("url", "")
                 preferences.setValues("nomor", data.nomor.toString())
                 preferences.setValues("status", "")
 
+
                 val intent = Intent(this@RegisterActivity,
                     RegisterPhotoscreenActivity::class.java).putExtra("nama", data.nama)
+                        .putExtra("user", data.username)
                 startActivity(intent)
             } else {
                 Toast.makeText(this@RegisterActivity, "Berhasil", Toast.LENGTH_LONG).show()

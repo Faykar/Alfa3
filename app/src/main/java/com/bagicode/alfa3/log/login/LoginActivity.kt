@@ -78,13 +78,14 @@ class LoginActivity : AppCompatActivity() {
                         preferences.setValues("nama", user.nama.toString())
                         preferences.setValues("user", user.username.toString())
                         preferences.setValues("url", user.url.toString())
+                        preferences.setValues("password", user.password.toString())
                         preferences.setValues("nomor", user.nomor.toString())
                         preferences.setValues("status", "1")
 
                         finishAffinity()
 
                         val intent = Intent(this@LoginActivity,
-                            HomeActivity::class.java)
+                            HomeActivity::class.java).putExtra("user", user)
                         startActivity(intent)
 
                     } else {

@@ -11,16 +11,16 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.home.EditProfileActivity
 import com.bagicode.alfa3.home.HomeActivity
 import com.bagicode.alfa3.log.login.User
 import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.firebase.database.DataSnapshot
+import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import com.google.firebase.database.*
 
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -44,6 +44,7 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
 
     var statusAdd: Boolean = false
     lateinit var filePath: Uri
+    lateinit var user : User
 
     lateinit var storage: FirebaseStorage
     lateinit var storageReference: StorageReference
@@ -59,13 +60,15 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
 
         mFirebaseInstance = FirebaseDatabase.getInstance()
         mFirebaseDatabase = mFirebaseInstance.getReference("User")
-            .child(intent.getStringExtra("user"))
+
 
 
         preferences = Preferences(this)
         storage = FirebaseStorage.getInstance()
         storageReference = storage.getReference("User")
-        tv_hello.text = "Selamat Datang\n"+intent.getStringExtra("nama")
+
+        user = intent.getParcelableExtra("data")
+        tv_hello.text = "Selamat Datang\n"+user.nama
 
         iv_add.setOnClickListener {
             if (statusAdd) {
@@ -73,17 +76,17 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
                 btn_save.visibility = View.INVISIBLE
 
                 iv_add.setImageResource(R.drawable.ic_btn_plus)
+
                 iv_profile.setImageResource(R.drawable.user)
             } else {
                 Dexter.withActivity(this)
-                    .withPermission(android.Manifest.permission.CAMERA)
+                    .withPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     .withListener(this)
                     .check()
-
             }
         }
 
-        btn_home.setOnClickListener{
+        btn_later.setOnClickListener{
             finishAffinity()
 
             val intent = Intent(this@RegisterPhotoscreenActivity,
@@ -92,68 +95,90 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
         }
 
         btn_save.setOnClickListener {
-            updateData()
+            if (filePath != null){
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Uploading..")
+                progressDialog.show()
+
+                Log.v("tamvan", "file uri upload 2" + filePath)
+
+                val ref = storageReference.child("images/"+UUID.randomUUID().toString())
+                ref.putFile(filePath)
+                    .addOnSuccessListener {
+                        progressDialog.dismiss()
+                        Toast.makeText(this@RegisterPhotoscreenActivity,"Uploaded",
+                            Toast.LENGTH_SHORT).show()
+
+
+                        ref.downloadUrl.addOnSuccessListener {
+                            updateData(it. toString())
+                        }
+
+//                            val hashMap: HashMap<String, String> = HashMap()
+//                            hashMap.put("url", it.toString())
+//
+//                            mFirebaseDatabase.updateChildren(hashMap as Map<String, Any>)
+//
+//
+//
+//                            Log.v("dapat", "url" + it.toString())
+
+
+
+//                        finishAffinity()
+//                        val intent = Intent (this@RegisterPhotoscreenActivity,
+//                            HomeActivity::class.java).putExtra("user", intent.getStringExtra("user"))
+//                        startActivity(intent)
+
+                    }
+                    .addOnFailureListener { e ->
+                        progressDialog.dismiss()
+                        Toast.makeText(this@RegisterPhotoscreenActivity,
+                            "Failed"+ e.message, Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnProgressListener { taskSnapshot ->
+                        val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                            .totalByteCount
+                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+                    }
+
+            }
+
         }
     }
 
 
-  fun updateData(){
-      if (filePath != null){
-          val progressDialog = ProgressDialog(this)
-          progressDialog.setTitle("Uploading..")
-          progressDialog.show()
+    private fun updateData(url: String) {
 
-          Log.v("tamvan", "file uri upload 2" + filePath)
+        mFirebaseDatabase.child(user.username!!).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-          val ref = storageReference.child("images/"+UUID.randomUUID().toString())
-//                val getRef = preferences.getValues(ref.toString())
-//                preferences.setValues("url", getRef.toString())
-//
-//                Log.v("tamvan", "url" + getRef.toString())
+                user.url = url
+                mFirebaseDatabase.child(user.username!!).setValue(user)
 
-
-          ref.putFile(filePath)
-              .addOnSuccessListener {
-                  progressDialog.dismiss()
-                  Toast.makeText(this@RegisterPhotoscreenActivity,"Uploaded",
-                      Toast.LENGTH_SHORT).show()
+                preferences.setValues("nama", user.nama.toString())
+                preferences.setValues("user", user.username.toString())
+                preferences.setValues("nomor", user.nomor.toString())
+                preferences.setValues("url", url)
+                preferences.setValues("password", user.password.toString())
+                preferences.setValues("status", "1")
 
 
-                  val getImg = ref.downloadUrl.addOnSuccessListener {
-                      val hashMap: HashMap<String, String> = HashMap()
-                      hashMap.put("url", it.toString())
-
-                        mFirebaseDatabase.updateChildren(hashMap as Map<String, Any>)
-
+                finishAffinity()
+                val intent = Intent(this@RegisterPhotoscreenActivity,
+                    HomeActivity::class.java).putExtra("data", user)
+                startActivity(intent)
 
 
-                      Log.v("dapat", "url" + it.toString())
+            }
 
-                  }
-//                        val data = mFirebaseInstance.getReference("user").child("url")
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@RegisterPhotoscreenActivity, ""+error.message, Toast.LENGTH_LONG).show()
+            }
+        })
 
 
-
-                  finishAffinity()
-                  val intent = Intent (this@RegisterPhotoscreenActivity,
-                      HomeActivity::class.java)
-                  startActivity(intent)
-
-              }
-
-              .addOnFailureListener { e ->
-                  progressDialog.dismiss()
-                  Toast.makeText(this@RegisterPhotoscreenActivity,
-                      "Failed"+ e.message, Toast.LENGTH_SHORT).show()
-              }
-              .addOnProgressListener { taskSnapshot ->
-                  val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                      .totalByteCount
-                  progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-              }
-
-      }
-  }
+    }
 
 
 
@@ -163,9 +188,9 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
 //                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
 //            }
 //        }
-
+        // Use Gallery and Camera
         ImagePicker.with(this)
-            .galleryOnly()
+            .provider(ImageProvider.BOTH)
             .start()
     }
 

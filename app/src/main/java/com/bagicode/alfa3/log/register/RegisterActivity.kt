@@ -20,7 +20,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var mFirebaseDatabase: DatabaseReference
     private lateinit var mFirebaseInstance: FirebaseDatabase
-    private lateinit var mDatabase: DatabaseReference
+
 
     private lateinit var preferences: Preferences
 
@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
 //
         mFirebaseInstance = FirebaseDatabase.getInstance()
-        mDatabase = FirebaseDatabase.getInstance().getReference()
+
         mFirebaseDatabase = mFirebaseInstance.getReference("User")
 
         preferences = Preferences(this)
@@ -93,12 +93,12 @@ class RegisterActivity : AppCompatActivity() {
                 preferences.setValues("nama", data.nama.toString())
                 preferences.setValues("user", data.username.toString())
                 preferences.setValues("nomor", data.nomor.toString())
+                preferences.setValues("password", data.password.toString())
                 preferences.setValues("status", "")
 
 
                 val intent = Intent(this@RegisterActivity,
-                    RegisterPhotoscreenActivity::class.java).putExtra("nama", data.nama)
-                        .putExtra("user", data.username)
+                    RegisterPhotoscreenActivity::class.java).putExtra("data", data)
                 startActivity(intent)
             } else {
                 Toast.makeText(this@RegisterActivity, "Berhasil", Toast.LENGTH_LONG).show()

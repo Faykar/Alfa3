@@ -15,10 +15,14 @@ import com.google.firebase.database.ValueEventListener
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.R.id.layout_frame
 import com.bagicode.alfa3.home.dashboard.DashboardFragment
+import com.bagicode.alfa3.log.login.User
 import kotlinx.android.synthetic.main.activity_home.*
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class HomeActivity : AppCompatActivity() {
+
+    lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,7 @@ class HomeActivity : AppCompatActivity() {
             changeIcon(iv_menu3, R.drawable.ic_profile)
         }
         iv_menu3.setOnClickListener {
+
             setFragment(fragmentProfile)
 
             changeIcon(iv_menu1, R.drawable.ic_home)

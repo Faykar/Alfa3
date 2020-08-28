@@ -40,7 +40,6 @@ class BuburBesarAdapter(private var data: List<getBuburBesar>,
         private val tvRP: TextView = view.findViewById(R.id.tvRP)
         private val tvStok: TextView = view.findViewById(R.id.tvStok)
         private val tvHarga: TextView =  view.findViewById(R.id.tvHarga)
-
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
         fun bindItem(data: getBuburBesar, listener: (getBuburBesar) -> Unit, context: Context, position: Int) {

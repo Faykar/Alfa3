@@ -43,9 +43,9 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         btn_update.setOnClickListener {
-            upNama = et_nama.text.toString()
-            upNomor = et_nomor.text.toString()
-            upPassword = et_password.text.toString()
+//            upNama = et_nama.text.toString()
+//            upNomor = et_nomor.text.toString()
+//            upPassword = et_password.text.toString()
 
 
 

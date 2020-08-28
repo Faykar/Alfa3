@@ -3,6 +3,7 @@ package com.bagicode.alfa3.home.bubur
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.bagicode.alfa3.home.bubur.model.getBuburKecil
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_bubur.*
 import kotlinx.android.synthetic.main.activity_bubur.iv_back
+import kotlinx.android.synthetic.main.fragment_menu.*
 
 
 class BuburActivity : AppCompatActivity() {
@@ -49,12 +51,18 @@ class BuburActivity : AppCompatActivity() {
     private fun getData() {
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 data.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
 
                     val buburBesar = getdataSnapshot.getValue(getBuburBesar::class.java)
-                    data.add(buburBesar!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = buburBesar?.harga
+                    val stok = buburBesar?.stok
+                    val desc = buburBesar?.desc
+                    val url = buburBesar?.url
+                    data.add(setData(key,harga!!,stok!!,desc!!,url!!))
+//                    Log.v("Hehe","Check Key "+ getdataSnapshot.key)
+//                    Log.v("Hehe","Check Key "+ buburBesar?.harga)
                 }
 
                 if (data.isNotEmpty()){
@@ -95,10 +103,18 @@ class BuburActivity : AppCompatActivity() {
                 Toast.makeText(context, "" + error.message, Toast.LENGTH_LONG).show()
             }
         })
-
-
     }
 
+    private fun setData(key: String,harga: Int,stok: Int,desc: String, url: String): getBuburBesar {
+        val data = getBuburBesar(
+                key,
+                harga,
+                stok,
+                desc,
+                url
+        )
+        return data
+    }
 
 
 }

@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.home.bubur.DetailBuburBesarActivity
+import com.bagicode.alfa3.home.bubur.model.getBuburBesar
+import com.bagicode.alfa3.home.bubur.model.getBuburKecil
 import com.bagicode.alfa3.home.tim.model.getTimBesar
 import com.bagicode.alfa3.home.tim.model.getTimKecil
 import com.google.firebase.database.*
@@ -20,7 +22,6 @@ class TimActivity : AppCompatActivity() {
     lateinit var mDatabase: DatabaseReference
     lateinit var context: Context
     lateinit var mDatabaseKecil: DatabaseReference
-
     private var dataList = ArrayList<getTimBesar>()
     private var dataListKecil = ArrayList<getTimKecil>()
 
@@ -49,7 +50,13 @@ class TimActivity : AppCompatActivity() {
                 for (getdataSnapshot in dataSnapshot.children) {
 
                     val timBesar = getdataSnapshot.getValue(getTimBesar::class.java)
-                    dataList.add(timBesar!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = timBesar?.harga
+                    val stok = timBesar?.stok
+                    val desc = timBesar?.desc
+                    val url = timBesar?.url
+                    dataList.add(setData(key,harga!!,stok!!,desc!!,url!!))
+//                    dataList.add(timBesar!!)
                 }
 
                 if (dataList.isNotEmpty()){
@@ -72,7 +79,13 @@ class TimActivity : AppCompatActivity() {
                 dataListKecil.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
                     val timKecil = getdataSnapshot.getValue(getTimKecil::class.java)
-                    dataListKecil.add(timKecil!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = timKecil?.harga
+                    val stok = timKecil?.stok
+                    val desc = timKecil?.desc
+                    val url = timKecil?.url
+                    dataListKecil.add(setDataKecil(key,harga!!,stok!!,desc!!,url!!))
+//                    dataListKecil.add(timKecil!!)
                 }
 
                 if (dataListKecil.isNotEmpty()){
@@ -90,8 +103,27 @@ class TimActivity : AppCompatActivity() {
                 Toast.makeText(context, "" + error.message, Toast.LENGTH_LONG).show()
             }
         })
+    }
 
-
+    private fun setData(key: String,harga: Int,stok: Int,desc: String, url: String): getTimBesar {
+        val data = getTimBesar(
+                key,
+                harga,
+                stok,
+                desc,
+                url
+        )
+        return data
+    }
+    private fun setDataKecil(key: String,harga: Int,stok: Int,desc: String, url: String): getTimKecil {
+        val data = getTimKecil(
+                key,
+                harga,
+                stok,
+                desc,
+                url
+        )
+        return data
     }
 
 }

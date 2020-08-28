@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.home.bubur.model.getBuburBesar
 import com.bagicode.alfa3.home.pudding.model.addPudding
 import com.bagicode.alfa3.home.pudding.model.getPudding
 import com.bagicode.alfa3.home.tim.PuddingAdapter
@@ -40,9 +41,15 @@ class PuddingActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataList.clear()
                 for (getdataSnapshot in dataSnapshot.children){
-
                     val pudding = getdataSnapshot.getValue(getPudding::class.java)
-                    dataList.add(pudding!!)
+//                    dataList.add(pudding!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = pudding?.harga
+                    val stok = pudding?.stok
+                    val desc = pudding?.desc
+                    val url = pudding?.url
+                    val jenis = pudding?.jenis
+                    dataList.add(setDataPuding(key,harga!!,stok!!,desc!!,url!!,jenis!!))
                 }
 
                 if (dataList.isNotEmpty()){
@@ -63,6 +70,17 @@ class PuddingActivity : AppCompatActivity() {
         })
     }
 
+    private fun setDataPuding(key: String,harga: Int,stok: Int,desc: String, url: String, jenis: String): getPudding {
+        val data = getPudding(
+                key,
+                desc,
+                url,
+                jenis,
+                stok,
+                harga
+        )
+        return data
+    }
 
 
 }

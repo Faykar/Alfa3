@@ -19,12 +19,9 @@ import kotlinx.android.synthetic.main.fragment_menu.*
 
 class BuburActivity : AppCompatActivity() {
 
-
-//    private lateinit var preferences: Preferences
     lateinit var mDatabase: DatabaseReference
     private lateinit var context : Context
     lateinit var mDatabaseKecil: DatabaseReference
-
     private var data = ArrayList<getBuburBesar>()
     private var dataListKecil = ArrayList<getBuburKecil>()
 
@@ -35,12 +32,9 @@ class BuburActivity : AppCompatActivity() {
 //        preferences = Preferences(activity!!.applicationContext)
         mDatabase = FirebaseDatabase.getInstance().reference.child("Bubur Besar")
         mDatabaseKecil = FirebaseDatabase.getInstance().reference.child("Bubur Kecil")
-
-
         rv_item_bubur_besar.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_item_bubur_kecil.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         getData()
-
 
         iv_back.setOnClickListener{
             finish()
@@ -61,8 +55,6 @@ class BuburActivity : AppCompatActivity() {
                     val desc = buburBesar?.desc
                     val url = buburBesar?.url
                     data.add(setData(key,harga!!,stok!!,desc!!,url!!))
-//                    Log.v("Hehe","Check Key "+ getdataSnapshot.key)
-//                    Log.v("Hehe","Check Key "+ buburBesar?.harga)
                 }
 
                 if (data.isNotEmpty()){
@@ -85,7 +77,13 @@ class BuburActivity : AppCompatActivity() {
                 dataListKecil.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
                     val buburKecil = getdataSnapshot.getValue(getBuburKecil::class.java)
-                    dataListKecil.add(buburKecil!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = buburKecil?.harga
+                    val stok = buburKecil?.stok
+                    val desc = buburKecil?.desc
+                    val url = buburKecil?.url
+                    dataListKecil.add(setDataKecil(key,harga!!,stok!!,desc!!,url!!))
+//                    dataListKecil.add(buburKecil!!)
                 }
 
                 if (dataListKecil.isNotEmpty()){
@@ -115,7 +113,16 @@ class BuburActivity : AppCompatActivity() {
         )
         return data
     }
-
+    private fun setDataKecil(key: String,harga: Int,stok: Int,desc: String, url: String): getBuburKecil {
+        val data = getBuburKecil(
+                key,
+                harga,
+                stok,
+                desc,
+                url
+        )
+        return data
+    }
 
 }
 

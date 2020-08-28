@@ -1,14 +1,12 @@
 package com.bagicode.alfa3.home.bubur
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail_bubur.*
 import com.bagicode.alfa3.home.bubur.model.getBuburBesar
-import com.bagicode.alfa3.home.bubur.model.getBuburKecil
 import com.bagicode.alfa3.utils.Preferences
 import com.google.firebase.database.*
 
@@ -43,7 +41,6 @@ class DetailBuburBesarActivity : AppCompatActivity() {
                     arrListCart.add(getSnap.getValue(String::class.java).toString())
                 }
             }
-
         })
 
         // Mengambil data dari Recycler View milik Bubur Besar
@@ -62,9 +59,9 @@ class DetailBuburBesarActivity : AppCompatActivity() {
             finish()
         }
 
-        btn_add.setOnClickListener {
+        button.setOnClickListener {
             if (arrListCart.isEmpty()) {
-                cart.child("cart").push().setValue(keyProduct)
+                addToCart(keyProduct)
                 Toast.makeText(
                         this@DetailBuburBesarActivity,
                         "Berhasil Menambah Ke Keranjang",
@@ -76,7 +73,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
                             "Produk Ini Sudah Ada Dikeranjang Anda",
                             Toast.LENGTH_LONG).show()
                 } else {
-                    cart.child("cart").push().setValue(keyProduct)
+                    addToCart(keyProduct)
                     Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Berhasil Menambah Ke Keranjang",
@@ -86,5 +83,9 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun addToCart(key: String){
+        cart.child("cart").push().setValue(key)
     }
 }

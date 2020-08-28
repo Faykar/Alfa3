@@ -57,7 +57,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
 
-            updateUser(updateNama, updateNomor, updatePassword)
+//            updateUser(updateNama, updateNomor, updatePassword)
 
 
 //            var map = mutableMapOf<String, Any>()

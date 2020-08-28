@@ -1,6 +1,7 @@
 package com.bagicode.alfa3.home.bubur
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class BuburBesarAdapter(private var data: List<getBuburBesar>,
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
         fun bindItem(data: getBuburBesar, listener: (getBuburBesar) -> Unit, context: Context, position: Int) {
+
 
             tvTitle.text = data.desc
             tvRP.text = ("Rp.")

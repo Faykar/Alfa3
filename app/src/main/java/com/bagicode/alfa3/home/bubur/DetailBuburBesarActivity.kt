@@ -1,6 +1,7 @@
 package com.bagicode.alfa3.home.bubur
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +27,9 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
 
         // Mengambil data dari Recycler View milik Bubur Besar
+
+        var key = data.key
+        Log.v("test", "Key Product is "+key)
         tvTitle.text = data.desc
         tvRP.text = ("Rp.")
         tvJenis.text = ("Besar")

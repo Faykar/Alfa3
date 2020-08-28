@@ -1,6 +1,7 @@
 package com.bagicode.alfa3.home.bubur
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

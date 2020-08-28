@@ -1,22 +1,26 @@
 package com.bagicode.alfa3.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.home.bubur.model.getBuburBesar
 import com.bagicode.alfa3.log.login.User
 import com.bagicode.alfa3.utils.Preferences
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-
 
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var preferences: Preferences
-//    lateinit var user : User
+    lateinit var user : User
+    lateinit var updateNama : String
+    lateinit var updateNomor : Number
+    lateinit var updatePassword: String
+    lateinit var showUsername : String
+
 
     lateinit var mFirebaseInstance: FirebaseDatabase
     lateinit var mFirebaseDatabase: DatabaseReference
@@ -27,19 +31,22 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
+        val data = intent.getParcelableExtra<User>("data")
 
         mFirebaseInstance = FirebaseDatabase.getInstance()
         mFirebaseDatabase = mFirebaseInstance.getReference("User")
+            .child("user")
+
 
 
 
 
         preferences = Preferences(applicationContext)
 
-        var updateNama = et_nama.setText(preferences.getValues("nama")).toString()
-        var updateNomor = et_nomor.setText(preferences.getValues("nomor")).toString()
-        var updatePassword = et_password.setText(preferences.getValues("password")).toString()
-
+        val showNama = et_nama.setText(user.nama)
+        val showNomor = et_nomor.setText(user.nomor)
+        val showPassword = et_password.setText(user.password)
+        val showUsername = preferences.getValues("user").toString()
 
 
         btn_update.setOnClickListener {
@@ -50,6 +57,8 @@ class EditProfileActivity : AppCompatActivity() {
 
 
 
+            updateUser(updateNama, updateNomor, updatePassword)
+
 
 //            var map = mutableMapOf<String, Any>()
 //        map["nama"] = updateNama
@@ -58,9 +67,54 @@ class EditProfileActivity : AppCompatActivity() {
 //
 //       mFirebaseDatabase
 //            .updateChildren(map)
+
+
         }
+    }
+    private fun updateUser(
+        updateNama: String,
+        updateNomor: Int,
+        updatePassword: String
+    ) {
+        mFirebaseDatabase.child(user.username!!).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                user = User(updateNama, updateNomor.toString(), updatePassword)
+
+                mFirebaseDatabase
+                    .child(user.username!!)
+                    .setValue(user)
+
+
+
+                preferences.setValues("nama", updateNama)
+                preferences.setValues("nomor", updateNomor.toString())
+                preferences.setValues("password", updatePassword)
+
+
+
+                finishAffinity()
+                val intent = Intent(this@EditProfileActivity,
+                    HomeActivity::class.java).putExtra("data", user)
+                startActivity(intent)
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@EditProfileActivity, ""+error.message, Toast.LENGTH_LONG).show()
+            }
+        })
+
 
     }
 
 
-}
+
+
+    }
+
+
+
+
+

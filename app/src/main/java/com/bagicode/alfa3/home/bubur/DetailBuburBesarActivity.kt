@@ -53,7 +53,6 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         tvJenis.text = ("Besar")
         tvStok.text = data.stok.toString()
         tvHarga.text = data.harga.toString()
-
         Glide.with(this)
                 .load(data.url)
                 .into(iv_poster_image)

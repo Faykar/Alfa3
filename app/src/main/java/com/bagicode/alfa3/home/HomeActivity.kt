@@ -2,18 +2,9 @@ package com.bagicode.alfa3.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.content.Intent
-import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.bagicode.alfa3.MenuActivity
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.ValueEventListener
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.R.id.layout_frame
 import com.bagicode.alfa3.home.dashboard.DashboardFragment
 import com.bagicode.alfa3.log.login.User
 import kotlinx.android.synthetic.main.activity_home.*

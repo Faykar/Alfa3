@@ -2,8 +2,11 @@ package com.bagicode.alfa3.log.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bagicode.alfa3.Admin.sign.LoginAdminActivity
+import com.bagicode.alfa3.log.login.User
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.home.HomeActivity
 import com.bagicode.alfa3.utils.Preferences
@@ -18,6 +21,20 @@ class LoginActivity : AppCompatActivity() {
 
     lateinit var mDatabase: DatabaseReference
     lateinit var preferences: Preferences
+    private var directSecret = false
+    private var doubleBackToExitPressedOnce = false
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +78,22 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity,
                 RegisterActivity::class.java)
             startActivity(intent)
+        }
+        // Panel Admin
+        icon.setOnClickListener {
+            if (directSecret) {
+                return@setOnClickListener
+            }
+            this.directSecret = true
+
+
+            Handler().postDelayed(Runnable {
+                val intent = Intent(this@LoginActivity,
+                    LoginAdminActivity::class.java)
+                startActivity(intent)
+                directSecret = false
+            }, 3000)
+
         }
     }
     private fun pushLogin(iUsername: String, iPassword: String) {

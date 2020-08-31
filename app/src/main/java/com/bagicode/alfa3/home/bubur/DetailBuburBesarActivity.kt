@@ -35,7 +35,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
         cart.child("cart").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(this@DetailBuburBesarActivity, ""+p0.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -47,7 +47,13 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         })
 
         // Mengambil data dari Recycler View milik Bubur Besar
+        var keyProduct = data.key.toString()
+        tvTitle.text = data.desc
+        tvRP.text = ("Rp.")
+        tvJenis.text = ("Besar")
+        tvStok.text = data.stok.toString()
         tvHarga.text = data.harga.toString()
+
         Glide.with(this)
                 .load(data.url)
                 .into(iv_poster_image)

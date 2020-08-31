@@ -2,7 +2,6 @@ package com.bagicode.alfa3.log.logout
 
 import android.content.Intent
 import android.os.Bundle
-import android.content.Context
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity

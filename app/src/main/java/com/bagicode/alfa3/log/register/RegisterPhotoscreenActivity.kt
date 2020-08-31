@@ -7,11 +7,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.home.EditProfileActivity
 import com.bagicode.alfa3.home.HomeActivity
 import com.bagicode.alfa3.log.login.User
 import com.bagicode.alfa3.utils.Preferences
@@ -23,7 +21,6 @@ import com.google.firebase.database.*
 
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -31,11 +28,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_register_photoscreen.*
 import kotlinx.android.synthetic.main.activity_register_photoscreen.btn_save
-import kotlinx.android.synthetic.main.activity_riwayat.*
 
 import java.util.*
-
-import kotlin.collections.HashMap
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -113,7 +107,7 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
                         ref.downloadUrl.addOnSuccessListener {
                             updateData(it. toString())
                         }
-
+                        // Update Data, FayFay Version
 //                            val hashMap: HashMap<String, String> = HashMap()
 //                            hashMap.put("url", it.toString())
 //

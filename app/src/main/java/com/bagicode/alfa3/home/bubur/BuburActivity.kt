@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_menu.*
 class BuburActivity : AppCompatActivity() {
 
 
-//    private lateinit var preferences: Preferences
+    //    private lateinit var preferences: Preferences
     lateinit var mDatabase: DatabaseReference
     private lateinit var context : Context
     lateinit var mDatabaseKecil: DatabaseReference
@@ -107,11 +107,11 @@ class BuburActivity : AppCompatActivity() {
 
     private fun setData(key: String,harga: Int,stok: Int,desc: String, url: String): getBuburBesar {
         val data = getBuburBesar(
-                key,
-                harga,
-                stok,
-                desc,
-                url
+            key,
+            harga,
+            stok,
+            desc,
+            url
         )
         return data
     }

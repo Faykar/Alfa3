@@ -24,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.noActionBar">
-        <activity android:name=".Admin.sign.HomeAdminActivity"></activity>
+        <activity android:name=".Admin.HomeAdminActivity"></activity>
         <activity android:name=".Admin.sign.LoginAdminActivity" />
         <activity android:name=".home.EditProfileActivity" />
         <activity android:name=".riwayat.RiwayatActivity" />

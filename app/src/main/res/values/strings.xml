@@ -7,4 +7,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registrasi">Registrasi</string>
     <string name="nomor">Nomor</string>
+    <string name="close">Close</string>
+    <string name="open">Open</string>
 </resources>

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="700dp"
         android:background="@color/colorPrimaryLight"
-        tools:context=".home.bubur.TimActivity">
+        tools:context=".user.home.bubur.TimActivity">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_item_tim_besar"
             android:layout_width="150dp"

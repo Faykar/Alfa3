@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.bagicode.alfa3.log.login.LoginActivity
+import com.bagicode.alfa3.user.log.login.LoginActivity
 
 
 class SplashScreenActivity : AppCompatActivity() {

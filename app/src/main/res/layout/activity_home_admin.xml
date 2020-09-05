@@ -9,7 +9,23 @@
     android:fitsSystemWindows="true"
     android:background="@color/colorPrimaryLight"
     tools:openDrawer="start"
-    tools:context=".Admin.HomeAdminActivity">
+    tools:context=".admin.panel.HomeAdminActivity">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"/>
+
+
+    </androidx.viewpager.widget.ViewPager>
+
+    
 
     <FrameLayout
         android:id="@+id/content"

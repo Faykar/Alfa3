@@ -2,7 +2,33 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/friend" android:title="Friends" />
-    <item android:id="@+id/channel" android:title="Channel" />
-    <item android:id="@+id/status" android:title="Status" />
+    <item android:id="@+id/Home"
+        android:title="Home" >
+    </item>
+
+    <item
+        android:id="@+id/dashboard"
+        android:title="Dashboard" >
+    <menu>
+        <item
+            android:id="@+id/data_user"
+            android:visible="true"
+            android:title="Data User"/>
+        <item
+            android:id="@+id/data_product"
+            android:visible="true"
+            android:title="Data Product"/>
+        <item
+            android:id="@+id/data_transaction"
+            android:visible="true"
+            android:title="Data Transaction"/>
+
+
+
+    </menu>
+    </item>
+
+    <item
+        android:id="@+id/tvLogout"
+        android:title="Logout" />
 </menu>

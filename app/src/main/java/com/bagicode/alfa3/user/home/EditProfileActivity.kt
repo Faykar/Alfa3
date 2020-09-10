@@ -43,7 +43,7 @@ class EditProfileActivity : AppCompatActivity() {
         val showNama = preferences.getValues("nama").toString()
         val showNomor = preferences.getValues("nomor").toString()
         val showPassword = preferences.getValues("password").toString()
-        val showUsername = preferences.getValues("user").toString()
+//        val showUsername = preferences.getValues("user").toString()
         et_nama.setText(showNama)
         et_nomor.setText(showNomor)
         et_password.setText(showPassword)

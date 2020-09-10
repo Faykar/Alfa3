@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="120dp"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
+    android:layout_marginStart="10dp"
     android:padding="5dp"
     android:background="@drawable/shape_rectangle_black_border"
     android:layout_marginTop="10dp"

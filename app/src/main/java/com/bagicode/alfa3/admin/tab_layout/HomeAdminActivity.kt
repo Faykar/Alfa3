@@ -1,13 +1,17 @@
-package com.bagicode.alfa3.admin.panel
+package com.bagicode.alfa3.admin.tab_layout
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import android.widget.Toolbar
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import kotlinx.android.synthetic.main.activity_home_admin.*
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.admin.dashboard.DashboardActivity
+import com.bagicode.alfa3.admin.dashboard.ProductActivity
 import com.google.android.material.navigation.NavigationView
 
 class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -27,47 +31,35 @@ class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         drawer_layout.addDrawerListener(mToggle)
         mToggle.syncState()
 
+
         viewpager_main.adapter = PagerAdapter(supportFragmentManager)
         tabs_main.setupWithViewPager(viewpager_main)
 
         nav_view.setNavigationItemSelectedListener(this)
 
 
-        
-    }
-
-    private fun setSupportActionBar(toolbar: Toolbar) {
 
     }
 
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-        return mToggle.onOptionsItemSelected(item)
-    }
 
-    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when (p0.itemId) {
-            R.id.dashboard -> {
-                Toast.makeText(this,"Data Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.data_user -> {
-                Toast.makeText(this,"Data Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.data_product -> {
-                Toast.makeText(this,"Data Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.data_transaction -> {
-                Toast.makeText(this,"Data Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.tvLogout -> {
-                Toast.makeText(this,"Data Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
-            else -> true
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        val id = item.itemId
+
+        if (id == R.id.dashboard) {
+            startActivity(Intent(this@HomeAdminActivity, DashboardActivity::class.java))
+        } else if (id == R.id.data_user){
+
+        } else if (id == R.id.data_product){
+            startActivity(Intent(this@HomeAdminActivity, ProductActivity::class.java))
+        } else if (id == R.id.data_transaction){
+
+        } else if (id == R.id.tvLogout){
+
         }
+
+        val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+        drawer.closeDrawer(GravityCompat.START)
         return true
     }
 }

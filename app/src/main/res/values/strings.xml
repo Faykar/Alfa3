@@ -9,4 +9,13 @@
     <string name="nomor">Nomor</string>
     <string name="close">Close</string>
     <string name="open">Open</string>
+    <string name="data_transaction">Data Transaction</string>
+    <string name="data_product">Data Product</string>
+    <string name="data_user">Data User</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="logout">Logout</string>
+    <string name="home">Home</string>
+    <string name="bubur_besar">BUBUR BESAR</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>

@@ -3,32 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/Home"
-        android:title="Home" >
+        android:title="@string/home" >
     </item>
 
     <item
         android:id="@+id/dashboard"
-        android:title="Dashboard" >
-    <menu>
-        <item
-            android:id="@+id/data_user"
-            android:visible="true"
-            android:title="Data User"/>
-        <item
-            android:id="@+id/data_product"
-            android:visible="true"
-            android:title="Data Product"/>
-        <item
-            android:id="@+id/data_transaction"
-            android:visible="true"
-            android:title="Data Transaction"/>
+        android:title="@string/dashboard"
+        android:visible="true"/>
 
-
-
-    </menu>
-    </item>
+    <item
+        android:id="@+id/data_user"
+        android:title="@string/data_user"/>
+    <item
+        android:id="@+id/data_product"
+        android:title="@string/data_product"/>
+    <item
+        android:id="@+id/data_transaction"
+        android:title="@string/data_transaction"/>
 
     <item
         android:id="@+id/tvLogout"
-        android:title="Logout" />
+        android:title="@string/logout" />
 </menu>

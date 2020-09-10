@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.bagicode.alfa3.admin.panel.HomeAdminActivity
+import com.bagicode.alfa3.admin.tab_layout.HomeAdminActivity
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.utils.Preferences
 import com.google.firebase.database.*

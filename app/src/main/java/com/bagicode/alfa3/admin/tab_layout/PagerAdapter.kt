@@ -1,4 +1,4 @@
-package com.bagicode.alfa3.admin.panel
+package com.bagicode.alfa3.admin.tab_layout
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

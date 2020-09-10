@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/colorPrimaryLight"
     tools:openDrawer="start"
-    tools:context=".admin.panel.HomeAdminActivity">
+    tools:context=".admin.tab_layout.HomeAdminActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_main"

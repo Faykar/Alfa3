@@ -24,7 +24,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.noActionBar">
-        <activity android:name=".admin.dashboard.product.AdminPuddingActivity"></activity>
+        <activity android:name=".admin.dashboard.updateproduct.UpdatePuddingActivity"/>
+        <activity android:name=".admin.dashboard.updateproduct.UpdateTimKecilActivity"/>
+        <activity android:name=".admin.dashboard.updateproduct.UpdateBuburKecilActivity"/>
+        <activity android:name=".admin.dashboard.updateproduct.UpdateTimBesarActivity"/>
+        <activity android:name=".admin.dashboard.updateproduct.UpdateBuburBesarActivity"/>
+        <activity android:name=".admin.dashboard.product.AdminPuddingActivity"/>
         <activity android:name=".admin.dashboard.product.AdminTimKecilActivity" />
         <activity android:name=".admin.dashboard.product.AdminTimBesarActivity" />
         <activity android:name=".admin.dashboard.product.AdminBuburKecilActivity" />

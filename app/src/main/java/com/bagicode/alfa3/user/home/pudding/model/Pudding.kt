@@ -15,9 +15,9 @@ data class addPudding(
 @Parcelize
 data class getPudding (
     var key: String ?="",
-    var desc: String ?="",
-    var url: String ?="",
-    var jenis: String?="",
+    var harga: Int ?= 0,
     var stok: Int ?= 0,
-    var harga: Int ?= 0
+    var desc: String ?="",
+    var jenis: String?="",
+    var url: String ?=""
 ): Parcelable

@@ -103,33 +103,15 @@ class EditProfileActivity : AppCompatActivity() {
 
                     }
 
-
-
-
-
-
                 Log.v("fayfay4", "Database is "+hashMap)
 
-
-
-
             }
-
-
-
-
 
             Log.v("fayfay1", "User is $updateNama")
             Log.v("fayfay2", "User is $updateNomor")
             Log.v("fayfay3", "User is $updatePassword")
 
-
-
-
-
         }
-
-//
 
         }
     }

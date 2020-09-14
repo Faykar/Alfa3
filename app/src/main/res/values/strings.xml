@@ -18,4 +18,8 @@
     <string name="bubur_besar">BUBUR BESAR</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="bubur_kecil">Bubur Kecil</string>
+    <string name="tim_besar">Tim Besar</string>
+    <string name="tim_kecil">Tim Kecil</string>
+    <string name="pudding">Pudding</string>
 </resources>

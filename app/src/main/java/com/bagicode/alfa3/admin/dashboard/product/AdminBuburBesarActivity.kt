@@ -4,17 +4,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.admin.dashboard.adapter_product.AdminBuburBesarAdapter
-
-import com.bagicode.alfa3.user.home.bubur.DetailBuburBesarActivity
+import com.bagicode.alfa3.admin.dashboard.updateproduct.UpdateBuburBesarActivity
 import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_admin_bubur_besar.*
-import kotlinx.android.synthetic.main.activity_admin_bubur_besar.iv_back
-import kotlinx.android.synthetic.main.activity_bubur.*
 
 class AdminBuburBesarActivity : AppCompatActivity() {
 
@@ -50,18 +48,20 @@ class AdminBuburBesarActivity : AppCompatActivity() {
                     val desc = buburBesar?.desc
                     val url = buburBesar?.url
                     data.add(setData(key, harga!!, stok!!, desc!!, url!!))
-//                    Log.v("Hehe","Check Key "+ getdataSnapshot.key)
-//                    Log.v("Hehe","Check Key "+ buburBesar?.harga)
+                    Log.v("Hehe","Check Key "+ getdataSnapshot.key)
+                    Log.v("Hehe","Check Key "+ buburBesar?.harga)
                 }
 
                 if (data.isNotEmpty()) {
-                    rv_admin_bubur_besar.adapter = AdminBuburBesarAdapter(data) {
+                    rv_admin_bubur_besar.adapter = AdminBuburBesarAdapter(data){
                         val intent = Intent(
                             applicationContext,
-                            DetailBuburBesarActivity::class.java
+                            UpdateBuburBesarActivity::class.java
                         ).putExtra("data besar", it)
                         startActivity(intent)
+
                     }
+
                 }
             }
 

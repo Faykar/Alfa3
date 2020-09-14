@@ -19,4 +19,4 @@ data class getBuburBesar(
     var stok: Int ?= 0,
     var desc: String ?="",
     var url: String ?=""
-): Parcelable
+):Parcelable

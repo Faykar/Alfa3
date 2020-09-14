@@ -10,14 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
+import com.bagicode.alfa3.user.home.pudding.model.getPudding
 import com.bumptech.glide.Glide
 import com.google.firebase.database.FirebaseDatabase
 
-class AdminBuburBesarAdapter(private var data: List<getBuburBesar>,
-                        private val listener: (getBuburBesar) -> Unit)
+class AdminPuddingAdapter(private var data: List<getPudding>,
+                          private val listener: (getPudding) -> Unit)
 
-    : RecyclerView.Adapter<AdminBuburBesarAdapter.LeagueViewHolder>(){
+    : RecyclerView.Adapter<AdminPuddingAdapter.LeagueViewHolder>(){
 
     lateinit var ContextAdapter : Context
 
@@ -45,7 +45,7 @@ class AdminBuburBesarAdapter(private var data: List<getBuburBesar>,
         private val tvEdit: TextView = view.findViewById(R.id.tvEdit)
         private val tvDelete: TextView = view.findViewById(R.id.tvDelete)
 
-        fun bindItem(data: getBuburBesar, listener: (getBuburBesar) -> Unit, context: Context, position: Int) {
+        fun bindItem(data: getPudding, listener: (getPudding) -> Unit, context: Context, position: Int) {
 
 
             tvTitle.text = data.desc
@@ -71,7 +71,7 @@ class AdminBuburBesarAdapter(private var data: List<getBuburBesar>,
 
 
         private fun showUpdateDialog(
-            data: getBuburBesar,
+            data: getPudding,
             ContextAdapter: Context
         ) {
             val builder = AlertDialog.Builder(ContextAdapter)

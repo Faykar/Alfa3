@@ -1,4 +1,4 @@
-package com.bagicode.alfa3.admin.dashboard.adapter_product
+package com.bagicode.alfa3.admin.dashboard.data_product.adapter_product
 
 import android.app.AlertDialog
 import android.content.Context

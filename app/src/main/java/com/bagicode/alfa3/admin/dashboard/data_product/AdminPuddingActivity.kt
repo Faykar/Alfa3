@@ -1,4 +1,4 @@
-package com.bagicode.alfa3.admin.dashboard.product
+package com.bagicode.alfa3.admin.dashboard.data_product
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.admin.dashboard.adapter_product.AdminPuddingAdapter
-import com.bagicode.alfa3.admin.dashboard.updateproduct.UpdatePuddingActivity
+import com.bagicode.alfa3.admin.dashboard.data_product.adapter_product.AdminPuddingAdapter
+import com.bagicode.alfa3.admin.dashboard.data_product.updateproduct.UpdatePuddingActivity
 import com.bagicode.alfa3.user.home.pudding.model.getPudding
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_admin_pudding.*

@@ -1,4 +1,4 @@
-package com.bagicode.alfa3.admin.dashboard.adapter_product
+package com.bagicode.alfa3.admin.dashboard.data_product.adapter_product
 
 import android.app.AlertDialog
 import android.content.Context
@@ -10,14 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.user.home.bubur.model.getBuburKecil
+import com.bagicode.alfa3.user.home.pudding.model.getPudding
 import com.bumptech.glide.Glide
 import com.google.firebase.database.FirebaseDatabase
 
-class AdminBuburKecilAdapter(private var data: List<getBuburKecil>,
-                             private val listener: (getBuburKecil) -> Unit)
+class AdminPuddingAdapter(private var data: List<getPudding>,
+                          private val listener: (getPudding) -> Unit)
 
-    : RecyclerView.Adapter<AdminBuburKecilAdapter.LeagueViewHolder>(){
+    : RecyclerView.Adapter<AdminPuddingAdapter.LeagueViewHolder>(){
 
     lateinit var ContextAdapter : Context
 
@@ -45,7 +45,7 @@ class AdminBuburKecilAdapter(private var data: List<getBuburKecil>,
         private val tvEdit: TextView = view.findViewById(R.id.tvEdit)
         private val tvDelete: TextView = view.findViewById(R.id.tvDelete)
 
-        fun bindItem(data: getBuburKecil, listener: (getBuburKecil) -> Unit, context: Context, position: Int) {
+        fun bindItem(data: getPudding, listener: (getPudding) -> Unit, context: Context, position: Int) {
 
 
             tvTitle.text = data.desc
@@ -71,7 +71,7 @@ class AdminBuburKecilAdapter(private var data: List<getBuburKecil>,
 
 
         private fun showUpdateDialog(
-            data: getBuburKecil,
+            data: getPudding,
             ContextAdapter: Context
         ) {
             val builder = AlertDialog.Builder(ContextAdapter)
@@ -92,7 +92,7 @@ class AdminBuburKecilAdapter(private var data: List<getBuburKecil>,
 
             builder.setView(view)
 
-            builder.setPositiveButton("Update"){ p0,p1 ->
+            builder.setPositiveButton("Update"){p0,p1 ->
                 val mDatabase = FirebaseDatabase.getInstance().reference.child("Bubur Besar")
 
                 val Title = etTitle.text.toString()

@@ -4,11 +4,11 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class User (
-    var nomor: String?="",
-    var nama: String ?="",
-    var password: String ?="",
+data class User (
     var username: String ?="",
+    var nama: String ?="",
+    var nomor: String ?= "",
+    var password: String ?="",
     var url: String ?=""
 
     ): Parcelable

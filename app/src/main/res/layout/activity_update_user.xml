@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_back"
+            android:id="@+id/ic_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="BUBUR"
+            android:text="User"
             android:textColor="#000"
             android:textSize="24sp" />
 
@@ -40,7 +40,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_bubur_active" />
+            android:src="@drawable/ic_profile" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,22 +77,22 @@
 
 
         <TextView
-            android:id="@+id/tvDesc"
+            android:id="@+id/tvNama"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:text="Deskripsi"
+            android:text="Nama :"
             android:gravity="center"
             android:textColor="#000"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvJenis"
+            app:layout_constraintTop_toBottomOf="@+id/tvUsername"
             />
 
 
         <EditText
-            android:id="@+id/et_title"
+            android:id="@+id/et_nama"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
@@ -103,43 +103,48 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvDesc"
-            app:layout_constraintTop_toBottomOf="@+id/tvJenis" />
+            app:layout_constraintStart_toEndOf="@+id/tvNama"
+            app:layout_constraintTop_toBottomOf="@+id/tvUsername" />
 
         <TextView
-            android:id="@+id/tvJenis"
+            android:id="@+id/tvUsername"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="Besar"
+            android:text="Username"
             android:textColor="#000"
             android:textSize="24sp"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
-            android:id="@+id/tvRP"
+            android:id="@+id/tvNomor"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
             android:gravity="center"
-            android:text="Harga"
+            android:text="Nomor :"
+            android:inputType="textPersonName"
             android:textColor="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNama"
+             />
 
         <EditText
-            android:id="@+id/et_harga"
+            android:id="@+id/et_nomor"
             android:layout_width="100dp"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
             android:gravity="center_vertical"
             android:hint="Masukkan Harga"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:ems="10"
+            android:inputType="number"
             android:textColor="#000"
-            app:layout_constraintStart_toEndOf="@+id/tvRP"
-            app:layout_constraintTop_toBottomOf="@+id/et_title" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/tvNomor"
+            app:layout_constraintTop_toBottomOf="@+id/et_nama" />
 
         <TextView
             android:id="@+id/textView7"
@@ -148,14 +153,14 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Stok : "
+            android:text="Password :"
             android:textColor="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvRP" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNomor" />
 
 
         <EditText
-            android:id="@+id/et_stok"
+            android:id="@+id/et_password"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
@@ -164,8 +169,9 @@
             android:layout_marginTop="10dp"
             android:text="Masukkan Stok"
             android:textColor="#000"
+            android:inputType="textPersonName"
             app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/et_harga" />
+            app:layout_constraintTop_toBottomOf="@+id/et_nomor" />
 
         <Button
             android:id="@+id/btn_update"
@@ -177,7 +183,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_stok" />
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
         <Button
             android:id="@+id/btn_delete"
@@ -191,7 +197,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_update"
-            app:layout_constraintTop_toBottomOf="@+id/et_stok" />
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

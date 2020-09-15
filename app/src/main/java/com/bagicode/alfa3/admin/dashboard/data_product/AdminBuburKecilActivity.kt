@@ -1,4 +1,4 @@
-package com.bagicode.alfa3.admin.dashboard.product
+package com.bagicode.alfa3.admin.dashboard.data_product
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.admin.dashboard.adapter_product.AdminBuburKecilAdapter
-import com.bagicode.alfa3.admin.dashboard.updateproduct.UpdateBuburKecilActivity
+import com.bagicode.alfa3.admin.dashboard.data_product.adapter_product.AdminBuburKecilAdapter
+import com.bagicode.alfa3.admin.dashboard.data_product.updateproduct.UpdateBuburKecilActivity
 import com.bagicode.alfa3.user.home.bubur.model.getBuburKecil
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_admin_bubur_kecil.*

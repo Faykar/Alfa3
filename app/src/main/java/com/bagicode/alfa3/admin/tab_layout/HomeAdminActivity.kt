@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -12,6 +13,9 @@ import kotlinx.android.synthetic.main.activity_home_admin.*
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.admin.dashboard.DashboardActivity
 import com.bagicode.alfa3.admin.dashboard.ProductActivity
+import com.bagicode.alfa3.admin.dashboard.data_user.UserActivity
+import com.bagicode.alfa3.admin.sign.LoginAdminActivity
+import com.bagicode.alfa3.user.log.login.LoginActivity
 import com.google.android.material.navigation.NavigationView
 
 class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -49,12 +53,21 @@ class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (id == R.id.dashboard) {
             startActivity(Intent(this@HomeAdminActivity, DashboardActivity::class.java))
         } else if (id == R.id.data_user){
-
+            startActivity(Intent(this@HomeAdminActivity, UserActivity::class.java))
         } else if (id == R.id.data_product){
             startActivity(Intent(this@HomeAdminActivity, ProductActivity::class.java))
         } else if (id == R.id.data_transaction){
 
         } else if (id == R.id.tvLogout){
+            finishAffinity()
+
+            Toast.makeText(this@HomeAdminActivity, "Berhasil Logout", Toast.LENGTH_SHORT)
+                .show()
+
+
+            val intent = Intent(this@HomeAdminActivity,
+                LoginAdminActivity::class.java)
+            startActivity(intent)
 
         }
 

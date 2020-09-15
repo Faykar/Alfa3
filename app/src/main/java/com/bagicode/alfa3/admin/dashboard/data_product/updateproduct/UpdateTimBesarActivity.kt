@@ -1,16 +1,12 @@
-package com.bagicode.alfa3.admin.dashboard.updateproduct
+package com.bagicode.alfa3.admin.dashboard.data_product.updateproduct
 
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.admin.dashboard.ProductActivity
-import com.bagicode.alfa3.admin.tab_layout.HomeAdminActivity
-import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
-import com.bagicode.alfa3.user.home.pudding.model.getPudding
 import com.bagicode.alfa3.user.home.tim.model.getTimBesar
 import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
@@ -18,7 +14,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_update.*
 
-class UpdatePuddingActivity : AppCompatActivity(){
+class UpdateTimBesarActivity : AppCompatActivity(){
     lateinit var mDatabase: DatabaseReference
     lateinit var preference: Preferences
 
@@ -28,20 +24,20 @@ class UpdatePuddingActivity : AppCompatActivity(){
     lateinit var updateTitle : String
     lateinit var updateHarga : Number
     lateinit var updateStok: Number
-    private lateinit var context : Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
 
-        val data = intent.getParcelableExtra<getPudding>("data besar")
+        val data = intent.getParcelableExtra<getTimBesar>("data besar")
+        val arrListCart = arrayListOf<String>()
         preference = Preferences(applicationContext)
 
 
         // Mengambil data dari Recycler View milik Bubur Besar
-        tvTitle.text = ("Pudding")
+        tvTitle.text = ("Tim Besar")
         tvRP.text = ("Harga : ")
-        tvJenis.text = data.jenis.toString()
+        tvJenis.text = ("Besar")
         var keyProduct = data.key.toString()
 
         val Title = data.desc.toString()
@@ -64,18 +60,18 @@ class UpdatePuddingActivity : AppCompatActivity(){
 
         btn_delete.setOnClickListener{
             mFirebaseInstance = FirebaseDatabase.getInstance()
-            mFirebaseDatabase = mFirebaseInstance.getReference("Pudding")
+            mFirebaseDatabase = mFirebaseInstance.getReference("Tim Besar")
                 .child(keyProduct)
+
 
             mFirebaseDatabase.removeValue()
 
-            Toast.makeText(this@UpdatePuddingActivity,"Data berhasil dihapus", Toast.LENGTH_SHORT)
+            Toast.makeText(this@UpdateTimBesarActivity, "Data berhasil dihapus", Toast.LENGTH_SHORT)
                 .show()
 
-            val intent = Intent(this@UpdatePuddingActivity,
-                ProductActivity::class.java)
+            val intent = Intent(this@UpdateTimBesarActivity,
+            ProductActivity::class.java)
             startActivity(intent)
-
 
         }
 
@@ -83,7 +79,7 @@ class UpdatePuddingActivity : AppCompatActivity(){
             val progressDialog = ProgressDialog(this)
             progressDialog.show()
             mFirebaseInstance = FirebaseDatabase.getInstance()
-            mFirebaseDatabase = mFirebaseInstance.getReference("Pudding")
+            mFirebaseDatabase = mFirebaseInstance.getReference("Tim Besar")
                 .child(keyProduct)
 
             updateTitle = et_title.text.toString()
@@ -116,7 +112,7 @@ class UpdatePuddingActivity : AppCompatActivity(){
                         progressDialog.show()
 
                         finishAffinity()
-                        val intent = Intent (this@UpdatePuddingActivity,
+                        val intent = Intent (this@UpdateTimBesarActivity,
                             ProductActivity::class.java)
 
                         startActivity(intent)

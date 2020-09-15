@@ -1,8 +1,9 @@
-package com.bagicode.alfa3.admin.dashboard.updateproduct
+package com.bagicode.alfa3.admin.dashboard.data_product.updateproduct
 
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.admin.dashboard.ProductActivity
@@ -56,6 +57,23 @@ class UpdateBuburBesarActivity : AppCompatActivity() {
 
         iv_back.setOnClickListener {
             finish()
+        }
+
+
+        btn_delete.setOnClickListener{
+            mFirebaseInstance = FirebaseDatabase.getInstance()
+            mFirebaseDatabase = mFirebaseInstance.getReference("Bubur Besar")
+                .child(keyProduct)
+
+            mFirebaseDatabase.removeValue()
+
+            Toast.makeText(this@UpdateBuburBesarActivity, "Data Berhasil Dihapus", Toast.LENGTH_SHORT)
+                .show()
+
+            val intent = Intent(this@UpdateBuburBesarActivity,
+            ProductActivity::class.java)
+            startActivity(intent)
+
         }
 
         btn_update.setOnClickListener {

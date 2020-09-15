@@ -3,10 +3,8 @@ package com.bagicode.alfa3.admin.dashboard
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.admin.dashboard.product.*
-import kotlinx.android.synthetic.main.activity_bubur.*
+import com.bagicode.alfa3.admin.dashboard.data_product.*
 import kotlinx.android.synthetic.main.activity_product.*
 
 class ProductActivity : AppCompatActivity() {

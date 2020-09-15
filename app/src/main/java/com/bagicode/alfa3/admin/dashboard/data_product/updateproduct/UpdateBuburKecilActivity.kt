@@ -1,20 +1,21 @@
-package com.bagicode.alfa3.admin.dashboard.updateproduct
+package com.bagicode.alfa3.admin.dashboard.data_product.updateproduct
 
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.admin.dashboard.ProductActivity
-import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
-import com.bagicode.alfa3.user.home.tim.model.getTimBesar
-import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.bagicode.alfa3.user.home.bubur.model.getBuburKecil
+import com.bagicode.alfa3.utils.Preferences
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_update.*
 
-class UpdateTimKecilActivity : AppCompatActivity(){
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+class UpdateBuburKecilActivity : AppCompatActivity() {
+
     lateinit var mDatabase: DatabaseReference
     lateinit var preference: Preferences
 
@@ -29,15 +30,14 @@ class UpdateTimKecilActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
 
-        val data = intent.getParcelableExtra<getTimBesar>("data besar")
-        val arrListCart = arrayListOf<String>()
+        val data = intent.getParcelableExtra<getBuburKecil>("data besar")
         preference = Preferences(applicationContext)
 
 
         // Mengambil data dari Recycler View milik Bubur Besar
-        tvTitle.text = ("Tim Kecil")
+        tvTitle.text = ("Bubur Besar")
         tvRP.text = ("Harga : ")
-        tvJenis.text = ("Kecil")
+        tvJenis.text = ("Besar")
         var keyProduct = data.key.toString()
 
         val Title = data.desc.toString()
@@ -58,11 +58,27 @@ class UpdateTimKecilActivity : AppCompatActivity(){
             finish()
         }
 
+        btn_delete.setOnClickListener {
+            mFirebaseInstance = FirebaseDatabase.getInstance()
+            mFirebaseDatabase = mFirebaseInstance.getReference("Bubur Kecil")
+                .child(keyProduct)
+
+            mFirebaseDatabase.removeValue()
+
+            Toast.makeText(this@UpdateBuburKecilActivity, "Data berhasil dihapus", Toast.LENGTH_SHORT)
+                .show()
+
+            val intent = Intent(this@UpdateBuburKecilActivity,
+            ProductActivity::class.java)
+
+            startActivity(intent)
+        }
+
         btn_update.setOnClickListener {
             val progressDialog = ProgressDialog(this)
             progressDialog.show()
             mFirebaseInstance = FirebaseDatabase.getInstance()
-            mFirebaseDatabase = mFirebaseInstance.getReference("Tim Kecil")
+            mFirebaseDatabase = mFirebaseInstance.getReference("Bubur Kecil")
                 .child(keyProduct)
 
             updateTitle = et_title.text.toString()
@@ -95,7 +111,7 @@ class UpdateTimKecilActivity : AppCompatActivity(){
                         progressDialog.show()
 
                         finishAffinity()
-                        val intent = Intent (this@UpdateTimKecilActivity,
+                        val intent = Intent (this@UpdateBuburKecilActivity,
                             ProductActivity::class.java)
 
                         startActivity(intent)
@@ -117,4 +133,5 @@ class UpdateTimKecilActivity : AppCompatActivity(){
         }
 
     }
+
 }

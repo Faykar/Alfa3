@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryLight"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.dashboard.product.AdminBuburBesarActivity"
+    tools:context=".admin.dashboard.data_product.AdminBuburBesarActivity"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout

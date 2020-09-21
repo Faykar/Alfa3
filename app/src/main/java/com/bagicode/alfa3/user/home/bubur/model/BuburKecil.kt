@@ -14,7 +14,8 @@ data class addBuburKecil(
 data class getBuburKecil(
     var key: String ?="",
     var harga: Int ?= 0,
-    var stok: Int ?= 0,
+    var jenis: String ?= "",
     var desc: String ?="",
-    var url: String ?=""
+    var url: String ?="",
+    var stok: Int ?= 0
 ):Parcelable

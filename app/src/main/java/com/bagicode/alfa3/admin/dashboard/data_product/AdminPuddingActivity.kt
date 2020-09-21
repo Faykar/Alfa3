@@ -45,7 +45,7 @@ class AdminPuddingActivity : AppCompatActivity() {
                     val stok = pudding?.stok
                     val desc = pudding?.desc
                     val url = pudding?.url
-                    data.add(setData(key,harga!!,stok!!,desc!!,jenis!!,url!!))
+                    data.add(setData(key,harga!!, jenis!!, stok!!,desc!!,url!!))
 
                 }
                 if (data.isNotEmpty()){
@@ -67,15 +67,14 @@ class AdminPuddingActivity : AppCompatActivity() {
         })
 
     }
-    private fun setData(key: String,harga: Int,stok: Int,desc: String,jenis: String,url: String
-    ) : getPudding {
+    private fun setData(key: String,harga: Int,jenis: String, stok: Int,desc: String, url: String): getPudding {
         val data = getPudding (
             key,
             harga,
-            stok,
-            desc,
             jenis,
-            url
+            desc,
+            url,
+            stok
         )
         return data
     }

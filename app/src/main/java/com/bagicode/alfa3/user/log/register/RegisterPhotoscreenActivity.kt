@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.user.home.HomeActivity
+import com.bagicode.alfa3.user.log.login.LoginActivity
 import com.bagicode.alfa3.user.log.login.User
 import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
@@ -84,7 +85,7 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
             finishAffinity()
 
             val intent = Intent(this@RegisterPhotoscreenActivity,
-            HomeActivity::class.java)
+            LoginActivity::class.java)
             startActivity(intent)
         }
 
@@ -160,7 +161,7 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
 
                 finishAffinity()
                 val intent = Intent(this@RegisterPhotoscreenActivity,
-                    HomeActivity::class.java).putExtra("data", user)
+                    LoginActivity::class.java)
                 startActivity(intent)
 
 

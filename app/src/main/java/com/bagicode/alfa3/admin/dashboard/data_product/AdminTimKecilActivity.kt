@@ -49,9 +49,10 @@ class AdminTimKecilActivity : AppCompatActivity() {
                     val key = getdataSnapshot.key.toString()
                     val harga = timKecil?.harga
                     val stok = timKecil?.stok
+                    val jenis = timKecil?.jenis
                     val desc = timKecil?.desc
                     val url = timKecil?.url
-                    data.add(setData(key,harga!!,stok!!,desc!!,url!!))
+                    data.add(setData(key,harga!!,jenis!!,stok!!,desc!!,url!!))
                 }
                 if (data.isNotEmpty()){
                     rv_admin_tim_kecil.adapter = AdminTimKecilAdapter(data){
@@ -73,13 +74,14 @@ class AdminTimKecilActivity : AppCompatActivity() {
         })
     }
 
-    private fun setData(key: String, harga: Int, stok: Int, desc: String, url: String): getTimKecil {
+    private fun setData(key: String, harga: Int, jenis : String, stok: Int, desc: String, url: String): getTimKecil {
         val data = getTimKecil(
             key,
             harga,
-            stok,
+            jenis,
             desc,
-            url
+            url,
+            stok
         )
         return data
     }

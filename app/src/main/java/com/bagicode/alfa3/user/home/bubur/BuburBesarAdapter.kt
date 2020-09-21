@@ -45,8 +45,7 @@ class BuburBesarAdapter(private var data: List<getBuburBesar>,
 
 
             tvTitle.text = data.desc
-            tvRP.text = ("Rp.")
-            tvJenis.text = ("Besar")
+            tvJenis.text = data.jenis
             tvStok.text = data.stok.toString()
             tvHarga.text = data.harga.toString()
 

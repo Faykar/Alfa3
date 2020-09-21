@@ -43,9 +43,10 @@ class AdminBuburKecilActivity : AppCompatActivity() {
                     val key = getdataSnapshot.key.toString()
                     val harga = buburKecil?.harga
                     val stok = buburKecil?.stok
+                    val jenis = buburKecil?.jenis
                     val desc = buburKecil?.desc
                     val url = buburKecil?.url
-                    data.add(setData(key, harga!!, stok!!, desc!!, url!!))
+                    data.add(setData(key, harga!!, jenis!!, stok!!, desc!!, url!!))
                 }
                 if (data.isNotEmpty()){
                     rv_admin_bubur_kecil.adapter = AdminBuburKecilAdapter(data){
@@ -67,13 +68,14 @@ class AdminBuburKecilActivity : AppCompatActivity() {
         })
 
     }
-    private fun setData(key: String, harga: Int, stok: Int, desc: String, url: String): getBuburKecil {
+    private fun setData(key: String, harga: Int, jenis : String, stok: Int, desc: String, url: String): getBuburKecil {
         val data = getBuburKecil(
             key,
             harga,
-            stok,
+            jenis,
             desc,
-            url
+            url,
+            stok
         )
 
         return data

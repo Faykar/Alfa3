@@ -20,4 +20,11 @@ class Preferences(val context: Context) {
         return sharedPref.getString(key, "")
     }
 
+
+    fun removeValue() {
+        val out: SharedPreferences.Editor = sharedPref.edit()
+        out.remove(MEETING_PREF)
+        out.apply()
+
+    }
 }

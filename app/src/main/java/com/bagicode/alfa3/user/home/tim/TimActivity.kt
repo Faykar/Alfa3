@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.user.home.bubur.model.getBuburKecil
 import com.bagicode.alfa3.user.home.tim.model.getTimBesar
 import com.bagicode.alfa3.user.home.tim.model.getTimKecil
 import com.google.firebase.database.*
@@ -48,7 +49,13 @@ class TimActivity : AppCompatActivity() {
                 for (getdataSnapshot in dataSnapshot.children) {
 
                     val timBesar = getdataSnapshot.getValue(getTimBesar::class.java)
-                    dataList.add(timBesar!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = timBesar?.harga
+                    val stok = timBesar?.stok
+                    val jenis = timBesar?.jenis
+                    val desc = timBesar?.desc
+                    val url = timBesar?.url
+                    dataList.add(setData(key, harga!!, jenis!!, stok!!, desc!!, url!!))
                 }
 
                 if (dataList.isNotEmpty()){
@@ -71,7 +78,13 @@ class TimActivity : AppCompatActivity() {
                 dataListKecil.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
                     val timKecil = getdataSnapshot.getValue(getTimKecil::class.java)
-                    dataListKecil.add(timKecil!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = timKecil?.harga
+                    val stok = timKecil?.stok
+                    val jenis = timKecil?.jenis
+                    val desc = timKecil?.desc
+                    val url = timKecil?.url
+                    dataListKecil.add(setDataKecil(key, harga!!, jenis!!, stok!!, desc!!, url!!))
                 }
 
                 if (dataListKecil.isNotEmpty()){
@@ -93,4 +106,18 @@ class TimActivity : AppCompatActivity() {
 
     }
 
+    private fun setData(key: String, harga: Int, jenis: String, stok: Int, desc: String, url: String): getTimBesar {
+        val data = getTimBesar (
+            key, harga, jenis, desc, url, stok
+        )
+        return data
+
+    }
+
+    private fun setDataKecil(key: String, harga: Int, jenis: String, stok: Int, desc: String, url: String) : getTimKecil {
+        val data = getTimKecil(
+            key, harga, jenis, desc, url, stok
+        )
+        return data
+    }
 }

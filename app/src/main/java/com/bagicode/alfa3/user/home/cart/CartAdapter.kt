@@ -1,33 +1,38 @@
-package com.bagicode.alfa3.user.home.tim
+package com.bagicode.alfa3.user.home.cart
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.user.home.tim.model.getTimBesar
 import com.bumptech.glide.Glide
+import com.google.firebase.database.FirebaseDatabase
+import java.text.NumberFormat
+import java.util.*
 
-class TimBesarAdapter(private var data: List<getTimBesar>,
-                        private val listener: (getTimBesar) -> Unit)
+class CartAdapter(private var data: List<getCart>,
+                             private val listener: (getCart) -> Unit)
 
-    : RecyclerView.Adapter<TimBesarAdapter.LeagueViewHolder>(){
+    : RecyclerView.Adapter<CartAdapter.LeagueViewHolder>(){
 
     lateinit var ContextAdapter : Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_menu, parent, false)
+        val inflatedView: View = layoutInflater.inflate(R.layout.row_cart, parent, false)
 
         return LeagueViewHolder(inflatedView)
     }
 
     override fun onBindViewHolder(holder: LeagueViewHolder, position: Int) {
-        holder.bindItem(data[position], listener, ContextAdapter, position)
+        val parse = holder.bindItem(data[position], listener, ContextAdapter, position)
     }
 
     override fun getItemCount(): Int = data.size
@@ -35,27 +40,28 @@ class TimBesarAdapter(private var data: List<getTimBesar>,
     class LeagueViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val tvTitle: TextView = view.findViewById(R.id.tvTitle)
-        private val tvJenis: TextView = view.findViewById(R.id.tvJenis)
-        private val tvRP: TextView = view.findViewById(R.id.tvRP)
-        private val tvStok: TextView = view.findViewById(R.id.tvStok)
         private val tvHarga: TextView =  view.findViewById(R.id.tvHarga)
-
+        private val tvJenis: TextView = view.findViewById(R.id.tvJenis)
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
-        fun bindItem(data: getTimBesar, listener: (getTimBesar) -> Unit, context: Context, position: Int) {
+        fun bindItem(data: getCart, listener: (getCart) -> Unit, context: Context, position: Int) {
+
 
             tvTitle.text = data.desc
             tvJenis.text = data.jenis
-            tvStok.text = data.stok.toString()
-            tvHarga.text = data.harga.toString()
+
+            val localeID = Locale("in", "ID")
+            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+            tvHarga.setText(formatRupiah.format(data.harga!!.toDouble()))
+
 
             Glide.with(context)
                 .load(data.url)
-                .into(tvImage);
+                .into(tvImage)
 
-            itemView.setOnClickListener {
-                listener(data)
-            }
+//            itemView.setOnClickListener {
+//                listener(data)
+//            }
         }
 
     }

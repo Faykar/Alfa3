@@ -45,8 +45,7 @@ class TimKecilAdapter(private var data: List<getTimKecil>,
         fun bindItem(data: getTimKecil, listener: (getTimKecil) -> Unit, context: Context, position: Int) {
 
             tvTitle.text = data.desc
-            tvRP.text = ("Rp.")
-            tvJenis.text = ("Kecil")
+            tvJenis.text = data.jenis
             tvStok.text = data.stok.toString()
             tvHarga.text = data.harga.toString()
 

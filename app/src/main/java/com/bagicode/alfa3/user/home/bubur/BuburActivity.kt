@@ -56,9 +56,10 @@ class BuburActivity : AppCompatActivity() {
                     val key = getdataSnapshot.key.toString()
                     val harga = buburBesar?.harga
                     val stok = buburBesar?.stok
+                    val jenis = buburBesar?.jenis
                     val desc = buburBesar?.desc
                     val url = buburBesar?.url
-                    data.add(setData(key,harga!!,stok!!,desc!!,url!!))
+                    data.add(setData(key,harga!!,jenis!!,stok!!,desc!!,url!!))
 //                    Log.v("Hehe","Check Key "+ getdataSnapshot.key)
 //                    Log.v("Hehe","Check Key "+ buburBesar?.harga)
                 }
@@ -83,7 +84,14 @@ class BuburActivity : AppCompatActivity() {
                 dataListKecil.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
                     val buburKecil = getdataSnapshot.getValue(getBuburKecil::class.java)
-                    dataListKecil.add(buburKecil!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = buburKecil?.harga
+                    val stok = buburKecil?.stok
+                    val jenis = buburKecil?.jenis
+                    val desc = buburKecil?.desc
+                    val url = buburKecil?.url
+
+                    dataListKecil.add(setDataKecil(key, harga!!, jenis!!, stok!!, desc!!, url!!))
                 }
 
                 if (dataListKecil.isNotEmpty()){
@@ -103,13 +111,21 @@ class BuburActivity : AppCompatActivity() {
         })
     }
 
-    private fun setData(key: String,harga: Int,stok: Int,desc: String, url: String): getBuburBesar {
+    private fun setData(key: String,harga: Int,jenis:String,stok: Int,desc: String, url: String): getBuburBesar {
         val data = getBuburBesar(
             key,
             harga,
-            stok,
+            jenis,
             desc,
-            url
+            url,
+            stok
+        )
+        return data
+    }
+
+    private fun setDataKecil(key: String, harga: Int, jenis: String, stok: Int, desc: String, url: String) : getBuburKecil {
+        val data = getBuburKecil(
+            key, harga, jenis, desc, url, stok
         )
         return data
     }

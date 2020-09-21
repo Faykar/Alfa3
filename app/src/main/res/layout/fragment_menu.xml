@@ -28,7 +28,7 @@
         <ImageView
             android:id="@+id/iv_pudding"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/ic_pudding" />
     </LinearLayout>
@@ -53,7 +53,7 @@
         <ImageView
             android:id="@+id/iv_riwayat"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/ic_history" />
     </LinearLayout>

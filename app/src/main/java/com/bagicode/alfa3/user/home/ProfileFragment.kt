@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 class ProfileFragment : Fragment() {
 
     lateinit var preferences: Preferences
-    lateinit var user : User
 
     lateinit var mFirebaseDatabase : DatabaseReference
     lateinit var mFirebaseInstance : FirebaseDatabase

@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_edit_profile.et_password
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var preferences: Preferences
-    lateinit var user : User
     lateinit var updateNama : String
     lateinit var updateNomor : String
     lateinit var updatePassword: String

@@ -45,7 +45,6 @@ class PuddingAdapter(private var data: List<getPudding>,
         fun bindItem(data: getPudding, listener: (getPudding) -> Unit, context: Context, position: Int) {
 
             tvTitle.text = data.desc
-            tvRP.text = ("Rp.")
             tvJenis.text = data.jenis.toString()
             tvStok.text = data.stok.toString()
             tvHarga.text = data.harga.toString()

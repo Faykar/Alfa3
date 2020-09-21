@@ -22,7 +22,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_bubur)
 
         val data = intent.getParcelableExtra<getBuburBesar>("data besar")
-        val arrListCart = arrayListOf<String>()
+        val arrListCart = arrayListOf<getBuburBesar>()
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Bubur Besar")
                 .child(data.desc.toString())
@@ -38,19 +38,24 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 for (getSnap in p0.children) {
-                    arrListCart.add(getSnap.getValue(String::class.java).toString())
+                    arrListCart.add(getSnap.getValue(getBuburBesar::class.java)!!)
                 }
             }
 
         })
 
-        // Mengambil data dari Recycler View milik Bubur Besar
-        var keyProduct = data.key.toString()
-        tvTitle.text = data.desc
-        tvRP.text = ("Rp.")
-        tvJenis.text = ("Besar")
+        // Mengambil data dari Recycler View milik Bubur Kecil
+        val keyProduct = data.key.toString()
+        val desc = data.desc
+        val jenis = data.jenis
+        val harga = data.harga
+        val url = data.url
+
         tvStok.text = data.stok.toString()
-        tvHarga.text = data.harga.toString()
+        tvTitle.setText(desc)
+        tvJenis.setText(jenis)
+        tvHarga.setText(harga.toString())
+
 
         Glide.with(this)
                 .load(data.url)
@@ -62,20 +67,24 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         }
 
         btn_add.setOnClickListener {
+
+
             if (arrListCart.isEmpty()) {
-                cart.child("cart").push().setValue(keyProduct)
+                cart.child("cart")
+                    .push()
+                    .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
                 Toast.makeText(
                         this@DetailBuburBesarActivity,
                         "Berhasil Menambah Ke Keranjang",
                         Toast.LENGTH_LONG).show()
             } else {
-                if (arrListCart.contains(keyProduct)) {
+                if (arrListCart.contains(addtoCart(keyProduct,harga!!,jenis,desc,url))) {
                     Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Produk Ini Sudah Ada Dikeranjang Anda",
                             Toast.LENGTH_LONG).show()
                 } else {
-                    cart.child("cart").push().setValue(keyProduct)
+                    cart.child("cart").push().setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
                     Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Berhasil Menambah Ke Keranjang",
@@ -84,6 +93,14 @@ class DetailBuburBesarActivity : AppCompatActivity() {
             }
 
         }
+
+    }
+
+    private fun addtoCart(key: String, harga: Int, jenis: String?, desc: String?, url: String?) : getBuburBesar {
+        val data = getBuburBesar (
+            key, harga, jenis, desc, url
+        )
+        return data
 
     }
 }

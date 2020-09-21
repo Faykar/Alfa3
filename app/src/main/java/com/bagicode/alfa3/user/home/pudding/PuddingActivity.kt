@@ -41,7 +41,13 @@ class PuddingActivity : AppCompatActivity() {
                 for (getdataSnapshot in dataSnapshot.children){
 
                     val pudding = getdataSnapshot.getValue(getPudding::class.java)
-                    dataList.add(pudding!!)
+                    val key = getdataSnapshot.key.toString()
+                    val harga = pudding?.harga
+                    val stok = pudding?.stok
+                    val jenis = pudding?.jenis
+                    val desc = pudding?.desc
+                    val url = pudding?.url
+                    dataList.add(setData(key, harga, stok, jenis, desc, url))
                 }
 
                 if (dataList.isNotEmpty()){
@@ -62,6 +68,13 @@ class PuddingActivity : AppCompatActivity() {
         })
     }
 
+    private fun setData(key: String, harga: Int?, stok: Int?, jenis: String?, desc: String?, url: String?): getPudding {
+        val data = getPudding (
+            key, harga, jenis, desc, url, stok
+        )
+        return data
+
+    }
 
 
 }

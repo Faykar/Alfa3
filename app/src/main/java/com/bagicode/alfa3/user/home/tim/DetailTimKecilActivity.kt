@@ -1,34 +1,68 @@
 package com.bagicode.alfa3.user.home.tim
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.user.home.tim.model.getTimBesar
 import com.bagicode.alfa3.user.home.tim.model.getTimKecil
+import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_detail_tim.*
+import kotlinx.android.synthetic.main.activity_detail_tim.iv_back
+import kotlinx.android.synthetic.main.activity_detail_tim.iv_poster_image
+import kotlinx.android.synthetic.main.activity_detail_tim.tvHarga
+import kotlinx.android.synthetic.main.activity_detail_tim.tvJenis
+import kotlinx.android.synthetic.main.activity_detail_tim.tvStok
+import kotlinx.android.synthetic.main.activity_detail_tim.tvTitle
 
 class DetailTimKecilActivity : AppCompatActivity() {
 
     lateinit var mDatabase: DatabaseReference
+    lateinit var cart: DatabaseReference
+    lateinit var preference: Preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_tim)
 
         val data = intent.getParcelableExtra<getTimKecil>("data kecil")
+        val arrListCart = arrayListOf<getTimKecil>()
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Tim Kecil")
             .child(data.desc.toString())
 
+        preference = Preferences(applicationContext)
+        cart = FirebaseDatabase.getInstance()
+            .getReference("User")
+            .child(preference.getValues("user").toString())
 
-        // Mengambil data dari Recycler View milik Bubur Besar
-        tvTitle.text = data.desc
-        tvRP.text = ("Rp.")
-        tvJenis.text = ("Kecil")
+        cart.child("cart").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@DetailTimKecilActivity, ""+p0.message, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (getSnap in p0.children) {
+                    arrListCart.add(getSnap.getValue(getTimKecil::class.java)!!)
+                }
+            }
+
+        })
+
+
+        // Mengambil data dari Recycler View milik Bubur Kecil
+        val keyProduct = data.key.toString()
+        val desc = data.desc
+        val jenis = data.jenis
+        val harga = data.harga
+        val url = data.url
+
         tvStok.text = data.stok.toString()
-        tvHarga.text = data.harga.toString()
+        tvTitle.setText(desc)
+        tvJenis.setText(jenis)
+        tvHarga.setText(harga.toString())
 
         Glide.with(this)
             .load(data.url)
@@ -38,5 +72,38 @@ class DetailTimKecilActivity : AppCompatActivity() {
         iv_back.setOnClickListener {
             finish()
         }
+
+        btn_add.setOnClickListener {
+            if (arrListCart.isEmpty()) {
+                cart.child("cart")
+                    .push()
+                    .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                Toast.makeText(
+                    this@DetailTimKecilActivity,
+                    "Berhasil Menambah Ke Keranjang",
+                    Toast.LENGTH_LONG).show()
+            } else {
+                if (arrListCart.contains(addtoCart(keyProduct,harga!!,jenis,desc,url))) {
+                    Toast.makeText(
+                        this@DetailTimKecilActivity,
+                        "Produk Ini Sudah Ada Dikeranjang Anda",
+                        Toast.LENGTH_LONG).show()
+                } else {
+                    cart.child("cart").push().setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                    Toast.makeText(
+                        this@DetailTimKecilActivity,
+                        "Berhasil Menambah Ke Keranjang",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
     }
 }
+
+    private fun addtoCart(key: String, harga: Int, jenis: String, desc: String?, url: String?): getTimKecil {
+        val data = getTimKecil (
+            key, harga, jenis, desc, url
+        )
+        return data
+    }
+
+    }

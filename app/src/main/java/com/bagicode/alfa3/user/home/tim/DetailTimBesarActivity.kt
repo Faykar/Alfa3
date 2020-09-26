@@ -73,6 +73,7 @@ class DetailTimBesarActivity : AppCompatActivity() {
         }
 
         btn_add.setOnClickListener {
+            finish()
             if (arrListCart.isEmpty()) {
                 cart.child("cart")
                     .push()

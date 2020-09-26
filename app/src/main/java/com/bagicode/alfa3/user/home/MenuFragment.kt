@@ -12,6 +12,7 @@ import com.bagicode.alfa3.R
 import com.bagicode.alfa3.user.home.bubur.BuburActivity
 import com.bagicode.alfa3.user.home.cart.CartActivity
 import com.bagicode.alfa3.user.home.cart.getCart
+import com.bagicode.alfa3.user.home.payment.Transaksi
 import com.bagicode.alfa3.user.home.pudding.PuddingActivity
 import com.bagicode.alfa3.user.riwayat.RiwayatActivity
 import com.bagicode.alfa3.user.home.tim.TimActivity
@@ -24,6 +25,7 @@ class MenuFragment : Fragment() {
 
 
     private var data = ArrayList<getCart>()
+    private var dataTransaction = ArrayList<Transaksi>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +52,9 @@ class MenuFragment : Fragment() {
             startActivity(Intent(activity, RiwayatActivity::class.java))
         }
         btn_cart.setOnClickListener {
-            startActivity(Intent(activity, CartActivity::class.java).putExtra("data", data))
+            startActivity(Intent(activity, CartActivity::class.java)
+                .putExtra("data", data)
+                .putExtra("transaksi", dataTransaction))
 
         }
 

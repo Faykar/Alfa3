@@ -63,6 +63,7 @@ class RegisterPhotoscreenActivity : AppCompatActivity(), PermissionListener {
         storageReference = storage.getReference("User")
 
         user = intent.getParcelableExtra("data")
+        Log.v("user", "datanya sama ga? $user")
         tv_hello.text = "Selamat Datang\n"+user.nama
 
         iv_add.setOnClickListener {

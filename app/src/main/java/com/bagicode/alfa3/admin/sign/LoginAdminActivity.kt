@@ -23,8 +23,8 @@ class LoginAdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_signin_admin)
 
         mDatabase = FirebaseDatabase.getInstance()
-            .getReference("User")
-            .child("Admin")
+            .getReference("Admin")
+
         preferences = Preferences(this)
 
 

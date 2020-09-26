@@ -39,7 +39,7 @@ class UpdateUserActivity : AppCompatActivity() {
         //Mengambil data dari Recycler View milik User
         tvUsername.text = data.username
 
-        var username = data.username.toString()
+        val username = data.username.toString()
 
         val Nama = data.nama
         val Nomor = data.nomor

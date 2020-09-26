@@ -44,7 +44,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
         })
 
-        // Mengambil data dari Recycler View milik Bubur Kecil
+        // Mengambil data dari Recycler View milik Bubur Besar
         val keyProduct = data.key.toString()
         val desc = data.desc
         val jenis = data.jenis
@@ -67,8 +67,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         }
 
         btn_add.setOnClickListener {
-
-
+            finish()
             if (arrListCart.isEmpty()) {
                 cart.child("cart")
                     .push()
@@ -84,7 +83,9 @@ class DetailBuburBesarActivity : AppCompatActivity() {
                             "Produk Ini Sudah Ada Dikeranjang Anda",
                             Toast.LENGTH_LONG).show()
                 } else {
-                    cart.child("cart").push().setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                    cart.child("cart")
+                        .push()
+                        .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
                     Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Berhasil Menambah Ke Keranjang",

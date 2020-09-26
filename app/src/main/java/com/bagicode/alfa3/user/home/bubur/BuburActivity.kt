@@ -99,7 +99,7 @@ class BuburActivity : AppCompatActivity() {
                         val intent = Intent(
                             applicationContext,
                             DetailBuburKecilActivity::class.java
-                        ).putExtra("data kecil", it)
+                        ).putExtra("data besar", it)
                         startActivity(intent)
                     }
                 }

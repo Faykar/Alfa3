@@ -3,6 +3,7 @@ package com.bagicode.alfa3.user.log.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.user.log.register.RegisterPhotoscreenActivity
@@ -89,7 +90,6 @@ class RegisterActivity : AppCompatActivity() {
             val user = dataSnapshot.getValue(User::class.java)
             if (user == null){
                 mFirebaseDatabase.child(iUsername).setValue(data)
-
                 preferences.setValues("nama", data.nama.toString())
                 preferences.setValues("user", data.username.toString())
                 preferences.setValues("nomor", data.nomor.toString())
@@ -99,6 +99,8 @@ class RegisterActivity : AppCompatActivity() {
 
                 val intent = Intent(this@RegisterActivity,
                     RegisterPhotoscreenActivity::class.java).putExtra("data", data)
+                Log.v("hap", "Datanya yaitu $data")
+
                 startActivity(intent)
             } else {
                 Toast.makeText(this@RegisterActivity, "Berhasil", Toast.LENGTH_LONG).show()

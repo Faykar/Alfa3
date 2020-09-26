@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
 import com.bagicode.alfa3.user.home.bubur.model.getBuburKecil
 import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
@@ -14,18 +13,18 @@ import kotlinx.android.synthetic.main.activity_detail_bubur.*
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailBuburKecilActivity : AppCompatActivity() {
 
+    lateinit var mDatabase: DatabaseReference
     lateinit var cart: DatabaseReference
-    lateinit var mDatabase : DatabaseReference
     lateinit var preference: Preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_bubur)
 
-        val data = intent.getParcelableExtra<getBuburKecil>("data kecil")
+        val data = intent.getParcelableExtra<getBuburKecil>("data besar")
         val arrListCart = arrayListOf<getBuburKecil>()
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Bubur Kecil")
+        mDatabase = FirebaseDatabase.getInstance().getReference("Bubur Besar")
             .child(data.desc.toString())
         preference = Preferences(applicationContext)
         cart = FirebaseDatabase.getInstance()
@@ -45,13 +44,12 @@ class DetailBuburKecilActivity : AppCompatActivity() {
 
         })
 
-        // Mengambil data dari Recycler View milik Bubur Kecil
+        // Mengambil data dari Recycler View milik Bubur Besar
         val keyProduct = data.key.toString()
         val desc = data.desc
         val jenis = data.jenis
         val harga = data.harga
         val url = data.url
-
 
         tvStok.text = data.stok.toString()
         tvTitle.setText(desc)
@@ -59,16 +57,17 @@ class DetailBuburKecilActivity : AppCompatActivity() {
         tvHarga.setText(harga.toString())
 
 
-
         Glide.with(this)
             .load(data.url)
             .into(iv_poster_image)
+
 
         iv_back.setOnClickListener {
             finish()
         }
 
         btn_add.setOnClickListener {
+            finish()
             if (arrListCart.isEmpty()) {
                 cart.child("cart")
                     .push()
@@ -84,7 +83,9 @@ class DetailBuburKecilActivity : AppCompatActivity() {
                         "Produk Ini Sudah Ada Dikeranjang Anda",
                         Toast.LENGTH_LONG).show()
                 } else {
-                    cart.child("cart").push().setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                    cart.child("cart")
+                        .push()
+                        .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
                     Toast.makeText(
                         this@DetailBuburKecilActivity,
                         "Berhasil Menambah Ke Keranjang",

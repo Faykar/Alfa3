@@ -10,5 +10,6 @@ data class Transaksi (
     var nama: String? = "",
     var nomor: String? = "",
     var hargaTotal: Int? = 0,
+    var status: String? ="",
     var bukti: String? =""
 ) : Parcelable

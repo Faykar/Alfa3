@@ -3,6 +3,7 @@ package com.bagicode.alfa3.user.home.cart
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,8 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.NumberFormat
 import java.util.*
 
-class CartAdapter(private var data: List<getCart>,
-                             private val listener: (getCart) -> Unit)
+open class CartAdapter(private var data: List<getCart>,
+                       private val listener: (getCart) -> Unit)
 
     : RecyclerView.Adapter<CartAdapter.LeagueViewHolder>(){
 
@@ -58,6 +59,10 @@ class CartAdapter(private var data: List<getCart>,
             Glide.with(context)
                 .load(data.url)
                 .into(tvImage)
+
+
+
+            Log.v("biasa", "Data Cartnya nih   "+data)
 
 //            itemView.setOnClickListener {
 //                listener(data)

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
@@ -24,10 +25,14 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
-        mDatabase = FirebaseDatabase.getInstance().reference.child("User")
+        mDatabase = FirebaseDatabase.getInstance().getReference("User")
+
 
         rv_admin_user.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         getData()
+
+
+
 
         iv_back.setOnClickListener {
             finish()
@@ -47,6 +52,7 @@ class UserActivity : AppCompatActivity() {
                     val password = user?.password
                     val url = user?.url
                     data.add(setData(username!!, nama!!, nomor!!, password!!, url!!))
+                    Log.v("333", "User ADALAH  $user")
                     if (data.isNotEmpty()){
                         rv_admin_user.adapter = AdminUserAdapter(data){
                             val intent = Intent(

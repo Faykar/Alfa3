@@ -13,8 +13,16 @@ class PagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm){
         CompleteFragment()
     )
 
+
+
     // menentukan fragment yang akan dibuka pada posisi tertentu
     override fun getItem(position: Int): Fragment {
+        when(position) {
+            0 -> PendingFragment()
+            1 -> ProgressFragment()
+            2 -> CompleteFragment()
+
+        }
         return pages[position]
     }
 

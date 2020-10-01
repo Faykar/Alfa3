@@ -1,15 +1,10 @@
-package com.bagicode.alfa3.admin.tab_layout
+package com.bagicode.alfa3.admin.dashboard.data_transaction
 
-import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi.TransaksiAdapter
 import com.bagicode.alfa3.user.home.payment.Transaksi
@@ -17,39 +12,22 @@ import com.bagicode.alfa3.user.home.payment.isiTransaksi
 import com.bagicode.alfa3.user.log.login.User
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_transaction.*
-import kotlinx.android.synthetic.main.fragment_pending.*
-import kotlinx.android.synthetic.main.fragment_pending.rv_transaction_user
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PendingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class PendingFragment : Fragment() {
+class TransactionActivity : AppCompatActivity() {
 
     lateinit var mDatabase: DatabaseReference
-    lateinit var transRef : DatabaseReference
-    lateinit var user: User
+    lateinit var transRef: DatabaseReference
+
     private var username : String = ""
 
+    lateinit var user : User
     private var data = ArrayList<User>()
-
     private var dataTrans = ArrayList<Transaksi>()
     private var isiTrans = ArrayList<isiTransaksi>()
-    
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_pending, container, false)
-       return v
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_transaction)
 
         mDatabase = FirebaseDatabase.getInstance().getReference("User")
         transRef = FirebaseDatabase.getInstance().getReference("User")
@@ -57,12 +35,13 @@ class PendingFragment : Fragment() {
 
 
 //        Log.v("user", "Dapatkah usernya $user")
-        rv_transaction_user.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        rv_transaction_user.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
         getData()
-
     }
-
     private fun getData() {
+
+
+
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 data.clear()
@@ -114,7 +93,7 @@ class PendingFragment : Fragment() {
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(context, ""+error.message, Toast.LENGTH_SHORT)
+                                Toast.makeText(this@TransactionActivity, ""+error.message, Toast.LENGTH_SHORT)
                                     .show()
                             }
 
@@ -133,12 +112,12 @@ class PendingFragment : Fragment() {
 
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, ""+error.message, Toast.LENGTH_SHORT)
+                Toast.makeText(this@TransactionActivity, ""+error.message, Toast.LENGTH_SHORT)
                     .show()
             }
 
-             })
-            }
+        })
+    }
 
     private fun setData(keyProduct: String, nama: String, nomor: String, hargaTotal: Int, bukti: String): Transaksi {
         val data = Transaksi (
@@ -147,5 +126,4 @@ class PendingFragment : Fragment() {
         return data
 
     }
-
-    }
+}

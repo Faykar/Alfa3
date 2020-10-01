@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.user.home.HomeActivity
 import com.bagicode.alfa3.utils.Preferences
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -114,6 +115,7 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
 //                          BERHASIL MASUK
                             val hashMap: HashMap<String, String> = HashMap()
                             hashMap.put("bukti", it.toString())
+                            hashMap.put("status", "Pending")
 
                             mFirebaseDatabase.child("transaksi")
                                 .child(key)
@@ -122,6 +124,13 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
 
 
                             Log.v("dapat", "url" + it.toString())
+
+                            finish()
+
+                            mFirebaseDatabase.child("cart")
+                                .removeValue()
+
+                            startActivity(Intent(this@PaymentActivity, HomeActivity::class.java))
                         }
                         // Update Data, FayFay Version
 
@@ -138,7 +147,9 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
                         progressDialog.setMessage("Terkirim " + progress.toInt() + "%")
                     }
 
+
             }
+
         }
     }
 
@@ -216,6 +227,8 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
         } else {
             Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
+
+
     }
 
 }

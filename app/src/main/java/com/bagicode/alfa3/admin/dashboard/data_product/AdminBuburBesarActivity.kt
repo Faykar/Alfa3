@@ -49,6 +49,7 @@ class AdminBuburBesarActivity : AppCompatActivity() {
                     val desc = buburBesar?.desc
                     val url = buburBesar?.url
                     data.add(setData(key, harga!!, jenis!!, stok!!, desc!!, url!!))
+                    Log.v("bubur", "cek data bubur"+buburBesar)
                     Log.v("Hehe","Check Key "+ getdataSnapshot.key)
                     Log.v("Hehe","Check Key "+ buburBesar?.harga)
                 }

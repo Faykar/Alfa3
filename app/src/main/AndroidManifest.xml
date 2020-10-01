@@ -37,7 +37,7 @@
         <activity android:name=".admin.dashboard.data_product.AdminTimBesarActivity" />
         <activity android:name=".admin.dashboard.data_product.AdminBuburKecilActivity" />
         <activity android:name=".admin.dashboard.data_product.AdminBuburBesarActivity" />
-        <activity android:name=".admin.dashboard.TransactionActivity" />
+        <activity android:name=".admin.dashboard.data_transaction.TransactionActivity" />
         <activity android:name=".admin.dashboard.data_user.UserActivity" />
         <activity android:name=".admin.dashboard.ProductActivity" />
         <activity android:name=".admin.dashboard.DashboardActivity" />

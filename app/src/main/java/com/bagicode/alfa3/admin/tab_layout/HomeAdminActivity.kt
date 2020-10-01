@@ -15,7 +15,6 @@ import com.bagicode.alfa3.admin.dashboard.DashboardActivity
 import com.bagicode.alfa3.admin.dashboard.ProductActivity
 import com.bagicode.alfa3.admin.dashboard.data_user.UserActivity
 import com.bagicode.alfa3.admin.sign.LoginAdminActivity
-import com.bagicode.alfa3.user.log.login.LoginActivity
 import com.google.android.material.navigation.NavigationView
 
 class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -36,8 +35,13 @@ class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         mToggle.syncState()
 
 
+
+
+
         viewpager_main.adapter = PagerAdapter(supportFragmentManager)
         tabs_main.setupWithViewPager(viewpager_main)
+
+
 
         nav_view.setNavigationItemSelectedListener(this)
 

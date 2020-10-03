@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Transaksi (
     var key: String? ="",
+    var username: String ="",
     var nama: String? = "",
     var nomor: String? = "",
     var hargaTotal: Int? = 0,

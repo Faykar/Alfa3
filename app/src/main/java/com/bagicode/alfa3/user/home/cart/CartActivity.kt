@@ -3,12 +3,10 @@ package com.bagicode.alfa3.user.home.cart
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
 import com.bagicode.alfa3.user.home.payment.PaymentActivity
 import com.bagicode.alfa3.user.home.payment.Transaksi
 import com.bagicode.alfa3.user.home.payment.isiTransaksi
@@ -62,6 +60,8 @@ class CartActivity() : AppCompatActivity() {
                 .child(preferences.getValues("user")
                         .toString())
 
+        Log.v("usernama", "Username is "+preferences.getValues("user"))
+
         rv_cart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         getData()
 
@@ -82,6 +82,7 @@ class CartActivity() : AppCompatActivity() {
                     .push()
                     .key
             val nama = preferences.getValues("nama").toString()
+            val username = preferences.getValues("user").toString()
             val nomor = preferences.getValues("nomor").toString()
             val status = ("on going")
 
@@ -93,11 +94,12 @@ class CartActivity() : AppCompatActivity() {
 
                         val keyProduct = getSnapshot.key.toString()
                         val nama = preferences.getValues("nama").toString()
+                        val username = preferences.getValues("user").toString()
                         val nomor = preferences.getValues("nomor").toString()
 //                                val bukti = listTransaksi.bukti.toString()
 
                         arrListCart.add(listTransaksi)
-                        dataTransaction.add(saveData(keyProduct, nama, nomor, hargaTotal, status))
+                        dataTransaction.add(saveData(keyProduct, username, nama, nomor, hargaTotal, status))
                         Log.v("transaksi", "transaksi" + listTransaksi)
                     }
                 }
@@ -119,16 +121,17 @@ class CartActivity() : AppCompatActivity() {
                         val jenis = isi?.jenis
                         val harga = isi?.harga
                         val desc = isi?.desc
+                        val url = isi?.url
 
 
-                        listIsiData.add(isiData(keyProduct, harga!!, jenis!!, desc!!))
+                        listIsiData.add(isiData(keyProduct, harga!!, jenis!!, desc!!,url!!))
                         arrListTransaksi.add(listData)
                         Log.v("isinya", "List Isi Transaksi" + listData)
                         isiRef.child("transaksi")
                                 .child(key.toString())
                                 .child("Pesanan")
                                 .push()
-                                .setValue(isiData(keyProduct, harga, jenis, desc))
+                                .setValue(isiData(keyProduct, harga, jenis, desc, url!!))
 
                     }
                 }
@@ -143,15 +146,15 @@ class CartActivity() : AppCompatActivity() {
             if (arrListCart.isEmpty()) {
                 transRef.child("transaksi")
                         .child(key.toString())
-                        .setValue((saveData(key.toString(), nama, nomor, hargaTotal, status)))
+                        .setValue((saveData(key.toString(),username, nama, nomor, hargaTotal, status)))
 
 
             } else {
-                if (arrListCart.contains(saveData(key.toString(), nama, nomor, hargaTotal, status))) {
+                if (arrListCart.contains(saveData(key.toString(), username, nama, nomor, hargaTotal, status))) {
                 } else {
                     transRef.child("transaksi")
                             .child(key.toString())
-                            .setValue(saveData(key!!, nama, nomor, hargaTotal, status))
+                            .setValue(saveData(key!!, username, nama, nomor, hargaTotal, status))
                 }
             }
 
@@ -171,7 +174,7 @@ class CartActivity() : AppCompatActivity() {
 //
 //                    }
 
-            dataTransaction.add(saveData(key!!, nama, nomor, hargaTotal, status))
+            dataTransaction.add(saveData(key!!, username, nama, nomor, hargaTotal, status))
             finish()
             val intent = Intent(applicationContext,
                     PaymentActivity::class.java)
@@ -223,19 +226,27 @@ class CartActivity() : AppCompatActivity() {
     }
 
 
-    private fun isiData(key: String, harga: Int, jenis: String, desc: String): isiTransaksi {
+    private fun isiData(
+        key: String,
+        harga: Int,
+        jenis: String,
+        desc: String,
+        url: String
+    ): isiTransaksi {
         val isiData = isiTransaksi(
-                key, harga, jenis, desc
+                key, harga, jenis, desc,url
         )
         return isiData
 
     }
 
-    private fun saveData(key: String, nama: String, nomor: String, hargaTotal: Int, status: String): Transaksi {
+    private fun saveData(key: String, username: String, nama: String, nomor: String, hargaTotal: Int, status: String): Transaksi {
         val dataTrans = Transaksi(
                 key,
+                username,
                 nama, nomor,
-                hargaTotal, status
+                hargaTotal,
+                status
         )
         return dataTrans
 

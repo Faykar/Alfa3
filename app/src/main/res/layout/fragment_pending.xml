@@ -9,7 +9,7 @@
     tools:context=".admin.tab_layout.PendingFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_transaction_user"
+        android:id="@+id/rv_transaction_pending"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 

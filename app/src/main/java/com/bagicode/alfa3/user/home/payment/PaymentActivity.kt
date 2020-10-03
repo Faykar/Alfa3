@@ -62,8 +62,6 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
         mFirebaseDatabase = mFirebaseInstance.getReference("User")
             .child(preferences.getValues("user")!!)
 
-        val transaksi = intent.extras.getParcelableArrayList<Transaksi>("data")
-
         val harga = intent.getIntExtra("harga", 0)
         val key = intent.getStringExtra("key")
 
@@ -76,6 +74,7 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
         tvNama.text = Nama
         tvNomor.text = Nomor
         tvHargaTotal.text = harga.toString()
+
 
         Log.v("yo", "harganya"+harga)
 
@@ -180,14 +179,14 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
 //
 //    }
 
-    private fun saveData(key: String,nama: String, nomor: String, hargaTotal: Int, bukti: String): Transaksi {
-        val data = Transaksi (key,
-            nama,nomor,
-            hargaTotal,bukti
-        )
-        return data
-
-    }
+//    private fun saveData(key: String,nama: String, nomor: String, hargaTotal: Int, bukti: String): Transaksi {
+//        val data = Transaksi (key,
+//            nama,nomor,
+//            hargaTotal,bukti
+//        )
+//        return data
+//
+//    }
 
     override fun onPermissionGranted(response: PermissionGrantedResponse?) {
         // Use Gallery and Camera

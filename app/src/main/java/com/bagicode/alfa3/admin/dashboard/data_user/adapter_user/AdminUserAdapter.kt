@@ -68,44 +68,5 @@ class AdminUserAdapter(private var data: List<User>,
         }
 
 
-//        private fun showUpdateDialog(
-//            data: User,
-//            ContextAdapter: Context
-//        ) {
-//            val builder = AlertDialog.Builder(ContextAdapter)
-//
-//            val inflater = LayoutInflater.from(ContextAdapter)
-//            val view = inflater.inflate(R.layout.update_dialog, null)
-//
-//            val etTitle = view.findViewById<EditText>(R.id.et_title)
-//            val etHarga = view.findViewById<EditText>(R.id.et_harga)
-//            val etStok = view.findViewById<EditText>(R.id.et_stok)
-//
-//
-//            etTitle.setText(data.desc)
-//            etHarga.setText(data.harga.toString())
-//            etStok.setText(data.stok.toString())
-//
-//
-//
-//            builder.setView(view)
-//
-//            builder.setPositiveButton("Update"){p0,p1 ->
-//                val mDatabase = FirebaseDatabase.getInstance().reference.child("Bubur Besar")
-//
-//                val Title = etTitle.text.toString()
-//                val Harga = etHarga.text.toString()
-//                val Stok = etStok.text.toString()
-//
-//
-//            }
-//
-//            builder.setNegativeButton("No"){p0,p1 ->
-//
-//            }
-//
-//        }
-//
-//
     }
 }

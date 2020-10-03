@@ -1,6 +1,7 @@
 package com.bagicode.alfa3.user.home.bubur
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bagicode.alfa3.R
@@ -13,7 +14,6 @@ import com.google.firebase.database.*
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailBuburBesarActivity : AppCompatActivity() {
 
-    lateinit var mDatabase: DatabaseReference
     lateinit var cart: DatabaseReference
     lateinit var preference: Preferences
 
@@ -24,8 +24,8 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         val data = intent.getParcelableExtra<getBuburBesar>("data besar")
         val arrListCart = arrayListOf<getBuburBesar>()
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Bubur Besar")
-                .child(data.desc.toString())
+
+        Log.v("testing","bubur besar "+data.desc.toString())
         preference = Preferences(applicationContext)
         cart = FirebaseDatabase.getInstance()
                 .getReference("User")

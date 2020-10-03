@@ -31,7 +31,7 @@ class BuburActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bubur)
 
 //        preferences = Preferences(activity!!.applicationContext)
-        mDatabase = FirebaseDatabase.getInstance().reference.child("Bubur Besar")
+        mDatabase = FirebaseDatabase.getInstance().getReference("Bubur Besar")
         mDatabaseKecil = FirebaseDatabase.getInstance().reference.child("Bubur Kecil")
 
 

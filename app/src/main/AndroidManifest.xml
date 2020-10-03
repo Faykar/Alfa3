@@ -24,8 +24,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.noActionBar">
-        <activity android:name=".user.home.cart.CartActivity"/>
-        <activity android:name=".user.home.payment.PaymentActivity"/>
+        <activity android:name=".admin.tab_layout.DetailTransaksi.DetailTransaksiCompleteActivity"/>
+        <activity android:name=".admin.tab_layout.DetailTransaksi.DetailTransaksiProgressActivity" />
+        <activity android:name=".admin.tab_layout.DetailTransaksi.DetailTransaksiPendingActivity" />
+        <activity android:name=".user.home.cart.CartActivity" />
+        <activity android:name=".user.home.payment.PaymentActivity" />
         <activity android:name=".admin.dashboard.data_user.update_user.UpdateUserActivity" />
         <activity android:name=".admin.dashboard.data_product.updateproduct.UpdatePuddingActivity" />
         <activity android:name=".admin.dashboard.data_product.updateproduct.UpdateTimKecilActivity" />

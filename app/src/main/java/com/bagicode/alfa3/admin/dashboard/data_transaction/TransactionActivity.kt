@@ -1,13 +1,14 @@
 package com.bagicode.alfa3.admin.dashboard.data_transaction
 
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi.TransaksiAdapter
-import com.bagicode.alfa3.user.home.payment.Transaksi
+import com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi.PendingTransaksiAdapter
+import com.bagicode.alfa3.admin.tab_layout.DetailAdapter.DetailTransaksiPendingAdapter
 import com.bagicode.alfa3.user.home.payment.isiTransaksi
 import com.bagicode.alfa3.user.log.login.User
 import com.google.firebase.database.*
@@ -17,12 +18,12 @@ class TransactionActivity : AppCompatActivity() {
 
     lateinit var mDatabase: DatabaseReference
     lateinit var transRef: DatabaseReference
+    lateinit var isiRef: DatabaseReference
 
     private var username : String = ""
 
-    lateinit var user : User
     private var data = ArrayList<User>()
-    private var dataTrans = ArrayList<Transaksi>()
+//    private var dataTrans = ArrayList<Transaksi>()
     private var isiTrans = ArrayList<isiTransaksi>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,9 @@ class TransactionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_transaction)
 
         mDatabase = FirebaseDatabase.getInstance().getReference("User")
-        transRef = FirebaseDatabase.getInstance().getReference("User")
+        transRef = FirebaseDatabase.getInstance().getReference("Pesanan")
+        isiRef = FirebaseDatabase.getInstance().getReference("User")
+
 
 
 
@@ -39,9 +42,6 @@ class TransactionActivity : AppCompatActivity() {
         getData()
     }
     private fun getData() {
-
-
-
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 data.clear()
@@ -58,55 +58,48 @@ class TransactionActivity : AppCompatActivity() {
 
                 for (a in data.indices){
                     username = data[a].username.toString()
-//                    Log.v("bow","data user is "+username)
-                    transRef
+                    Log.v("bow","data user is "+username)
+
+
+                    val keyTransaksi = transRef
                         .child(username)
                         .child("transaksi")
+                        .push().key
+
+                    transRef
+//                        .child(username)
+//                        .child("transaksi")
+//                        .child(keyTransaksi.toString())
+//                        .child("Pesanan")
                         .addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                            dataTrans.clear()
+                            isiTrans.clear()
                                 for (getdataTransSnapshot in dataSnapshot.children){
-                                    val transaksi = getdataTransSnapshot.getValue(Transaksi::class.java)
+                                    val isitransaksi = getdataTransSnapshot.getValue(isiTransaksi::class.java)
 
                                     val keyProduct = getdataTransSnapshot.key.toString()
-                                    val nama = transaksi?.nama
-                                    val nomor = transaksi?.nomor
-                                    val bukti = transaksi?.bukti
-                                    val hargaTotal = transaksi?.hargaTotal
+                                    val desc = isitransaksi?.desc
+                                    val harga = isitransaksi?.harga
+                                    val jenis = isitransaksi?.jenis
+                                    val url = isitransaksi?.url
 
 
-                                    dataTrans.add(transaksi!!)
-                                    dataTrans.add(setData(keyProduct, nama!!, nomor!!, hargaTotal!!, bukti!!))
-                                    Log.v("1311","Transaksi User == $transaksi")
-
-
-
-
+                                    isiTrans.add(setData(keyProduct, harga!!, jenis!!, desc!!, url!!))
+                                    Log.v("1311","Transaksi User == $isitransaksi")
                                 }
-                                if (dataTrans.isNotEmpty()){
-                                    rv_transaction_user.adapter = TransaksiAdapter(dataTrans){
+                                if (isiTrans.isNotEmpty()){
+                                    rv_transaction_user.adapter = DetailTransaksiPendingAdapter(isiTrans){
 
                                     }
+
                                 }
-
-
                             }
-
                             override fun onCancelled(error: DatabaseError) {
                                 Toast.makeText(this@TransactionActivity, ""+error.message, Toast.LENGTH_SHORT)
                                     .show()
                             }
-
                         })
                 }
-
-                Log.v("bow","data user is "+username)
-
-
-
-
-
-
 
             }
 
@@ -119,9 +112,9 @@ class TransactionActivity : AppCompatActivity() {
         })
     }
 
-    private fun setData(keyProduct: String, nama: String, nomor: String, hargaTotal: Int, bukti: String): Transaksi {
-        val data = Transaksi (
-            keyProduct, nama, nomor, hargaTotal,bukti
+    private fun setData(keyProduct: String,  harga: Int, jenis: String, desc: String, url: String): isiTransaksi {
+        val data = isiTransaksi (
+            keyProduct, harga, jenis, desc,url
         )
         return data
 

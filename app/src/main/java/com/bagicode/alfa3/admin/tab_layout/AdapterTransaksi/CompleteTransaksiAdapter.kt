@@ -1,7 +1,6 @@
 package com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import com.bagicode.alfa3.R
 import com.bagicode.alfa3.user.home.payment.Transaksi
 import com.bumptech.glide.Glide
 
-class TransaksiAdapter(private var dataTrans: List<Transaksi>,
-                        private val listener: (Transaksi) -> Unit)
-    : RecyclerView.Adapter<TransaksiAdapter.LeagueViewHolder>() {
+class CompleteTransaksiAdapter(private var dataTrans: List<Transaksi>,
+                              private val listener: (Transaksi) -> Unit)
+    : RecyclerView.Adapter<CompleteTransaksiAdapter.LeagueViewHolder>() {
 
     lateinit var ContextAdapter : Context
 
@@ -45,14 +44,17 @@ class TransaksiAdapter(private var dataTrans: List<Transaksi>,
 
         fun bindItem(dataTrans: Transaksi, listener: (Transaksi) -> Unit, context : Context, position : Int) {
 
-            tvNama.text = dataTrans.nama
-            tvNomor.text = dataTrans.nomor
-            tvStatus.text = dataTrans.status
-            tvHargaTotal.text = dataTrans.hargaTotal.toString()
 
-            Glide.with(context)
-                .load(dataTrans.bukti)
-                .into(tvImage)
+            if (dataTrans.status == "Complete") {
+                tvNama.text = dataTrans.nama
+                tvNomor.text = dataTrans.nomor
+                tvStatus.text = dataTrans.status
+                tvHargaTotal.text = dataTrans.hargaTotal.toString()
+
+                Glide.with(context)
+                    .load(dataTrans.bukti)
+                    .into(tvImage)
+            }
 
 
 //            itemView.setOnClickListener {

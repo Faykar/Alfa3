@@ -39,7 +39,7 @@ class UpdateBuburBesarActivity : AppCompatActivity() {
         tvTitle.text = ("Bubur Besar")
         tvRP.text = ("Harga : ")
         tvJenis.text = ("Besar")
-        var keyProduct = data.key.toString()
+        val keyProduct = data.key.toString()
 
         val Title = data.desc.toString()
         val Harga = data.harga

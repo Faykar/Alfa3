@@ -16,7 +16,8 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rv_detail_pesanan">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -39,7 +40,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_detail_pesanan"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="500dp"
+        android:layout_below="@+id/linearLayout"
+        android:padding="10dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rv_detail_pesanan" />
 
     <Button
+        android:id="@+id/btn_tolak"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:text="Tolak"

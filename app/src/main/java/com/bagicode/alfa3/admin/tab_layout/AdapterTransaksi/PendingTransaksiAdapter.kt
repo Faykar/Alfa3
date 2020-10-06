@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.Constraints
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.user.home.payment.Transaksi
 import com.bumptech.glide.Glide
 
-class PendingTransaksiAdapter(private var dataTrans: List<Transaksi>,
+class PendingTransaksiAdapter(private var dataTrans: ArrayList<Transaksi>,
                               private val listener: (Transaksi) -> Unit)
     : RecyclerView.Adapter<PendingTransaksiAdapter.LeagueViewHolder>() {
 
@@ -39,12 +43,17 @@ class PendingTransaksiAdapter(private var dataTrans: List<Transaksi>,
         private val tvHargaTotal: TextView = view.findViewById(R.id.tvHargaTotal)
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
         private val tvEdit: TextView = view.findViewById(R.id.tvEdit)
+        private val constraint: ConstraintLayout = view.findViewById(R.id.constraint)
 
 
 
 
-        fun bindItem(dataTrans: Transaksi, listener: (Transaksi) -> Unit, context : Context, position : Int) {
+        fun bindItem(dataTrans: Transaksi, listener: (Transaksi) -> Unit, context: Context, position: Int) {
 
+
+            if (dataTrans.status!!.contentEquals("Pending")) {
+
+                constraint.visibility = View.VISIBLE
 
                 tvNama.text = dataTrans.nama
                 tvNomor.text = dataTrans.nomor
@@ -55,10 +64,13 @@ class PendingTransaksiAdapter(private var dataTrans: List<Transaksi>,
                     .load(dataTrans.bukti)
                     .into(tvImage)
 
-
                 tvEdit.setOnClickListener {
                     listener(dataTrans)
                 }
+            } else {
+                constraint.visibility = View.GONE
+            }
+
 
         }
 

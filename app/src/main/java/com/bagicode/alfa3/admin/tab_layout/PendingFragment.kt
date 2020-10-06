@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.admin.dashboard.data_transaction.Pesanan.Pesanan
 import com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi.PendingTransaksiAdapter
 import com.bagicode.alfa3.admin.tab_layout.DetailTransaksi.DetailTransaksiPendingActivity
 import com.bagicode.alfa3.user.home.payment.Transaksi
@@ -28,14 +29,15 @@ class PendingFragment : Fragment() {
 
     lateinit var mDatabase: DatabaseReference
     lateinit var transRef : DatabaseReference
+    lateinit var Ref : DatabaseReference
     lateinit var user: User
-//    private var username : String = ""
+    private var username : String = ""
     lateinit var transaksi: Transaksi
 
     private var data = ArrayList<User>()
-
+    private var isiDataTransaksi = ArrayList<isiTransaksi>()
     private var dataTrans = ArrayList<Transaksi>()
-    private var isiTrans = ArrayList<isiTransaksi>()
+    private var dataPesanan = ArrayList<Pesanan>()
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,8 +56,6 @@ class PendingFragment : Fragment() {
         transRef = FirebaseDatabase.getInstance().getReference("User")
 
 
-
-//        Log.v("user", "Dapatkah usernya $user")
         rv_transaction_pending.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         getData()
 
@@ -76,64 +76,87 @@ class PendingFragment : Fragment() {
 
                 }
             }
-
-
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, ""+error.message, Toast.LENGTH_SHORT)
                     .show()
-              }
-
-             })
-                for (a in data.indices){
-                    val username = data[a].username.toString()
-                            Log.v("bow","data user is "+username)
-                    transRef
-                        .child(username)
-                        .child("transaksi")
-                        .addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-        //                            dataTrans.clear()
-                                for (getdataTransSnapshot in dataSnapshot.children){
-                                    transaksi = getdataTransSnapshot.getValue(Transaksi::class.java)!!
-
-                                    val keyProduct = getdataTransSnapshot.key.toString()
-                                    val nama = transaksi?.nama
-                                    val nomor = transaksi?.nomor
-                                    val bukti = transaksi?.bukti
-                                    val hargaTotal = transaksi?.hargaTotal
-                                    val user = transaksi?.username
-
-
-                                    dataTrans.add(transaksi!!)
-                                    dataTrans.add(setData(keyProduct, user, nama!!, nomor!!, hargaTotal!!, bukti!!))
-                                    Log.v("1311","Transaksi User == $transaksi")
-
-                                }
-                                if (dataTrans.isNotEmpty()){
-                                    rv_transaction_pending.adapter = PendingTransaksiAdapter(dataTrans){
-                                        val intent = Intent(context,
-                                            DetailTransaksiPendingActivity::class.java)
-                                            .putExtra("data", it)
-                                        startActivity(intent)
-
-                                    }
-                                }
-                            }
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(context, ""+error.message, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        })
-                }
-
             }
 
-    private fun setData(keyProduct: String,username: String,  nama: String, nomor: String, hargaTotal: Int, bukti: String): Transaksi {
-        val data = Transaksi (
-            keyProduct,username, nama, nomor, hargaTotal,bukti
-        )
-        return data
+        })
 
-    }
+        for (a in data.indices){
+            username = data[a].username.toString()
+//                    Log.v("bow","data user is "+username)
+            transRef
+                .child(username)
+                .child("transaksi")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        dataTrans.clear()
+                        for (getdataTransSnapshot in dataSnapshot.children) {
+                            val transaksi = getdataTransSnapshot.getValue(Transaksi::class.java)
+//                            val keyProduct = getdataTransSnapshot.key.toString()
+//                            val nama = transaksi?.nama
+//                            val nomor = transaksi?.nomor
+//                            val bukti = transaksi?.bukti
+//                            val hargaTotal = transaksi?.hargaTotal
+//                            val username = transaksi?.username
+//                            val status = transaksi?.status
 
+                            dataTrans.add(transaksi!!)
+
+//                            dataTrans.add(setData(keyProduct,username!!, nama!!,
+//                                nomor!!, hargaTotal!!, bukti!!,status!!))
+                            Log.v("1312", "Array Transaksi" + dataTrans)
+
+                            for (getchild in getdataTransSnapshot.children) {
+                                val getKey = getchild.key.toString()
+                                val getRef = getchild.ref
+
+                                Log.v("1211", "Key Childnya $getKey")
+                                Log.v("1212", "Ref Childnya $getRef")
+
+                                for (getPesanan in getchild.children) {
+                                    val pesanan = getPesanan.getValue(Pesanan::class.java)!!
+//                                    val keyPesanan = getPesanan.key.toString()
+//                                    val harga = pesanan.harga
+//                                    val jenis = pesanan.jenis
+//                                    val desc = pesanan.desc
+//                                    val url = pesanan.url
+
+
+                                    dataPesanan.add(pesanan)
+//                                dataPesanan.add(getPesanan(keyPesanan,harga!!,jenis!!,desc!!,url!!))
+                                    Log.v("1311", "Pesanan User ==" + dataPesanan)
+                                    Log.v("1310", "Value Pesanan == "+pesanan)
+                                }
+                                if (dataPesanan.equals("Pending")){
+
+                                }
+
+
+                            }
+                        }
+                        if (dataTrans.isNotEmpty()){
+                            rv_transaction_pending.adapter = PendingTransaksiAdapter(dataTrans){
+                                val intent = Intent(context,
+                                    DetailTransaksiPendingActivity::class.java)
+                                    .putExtra("data", it)
+                                    .putExtra("pesanan", dataPesanan)
+                                startActivity(intent)
+
+                            }
+                        }
+
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, ""+error.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                })
+        }
     }
+}
+

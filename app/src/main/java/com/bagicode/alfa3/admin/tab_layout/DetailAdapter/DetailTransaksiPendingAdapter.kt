@@ -8,13 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.user.home.payment.isiTransaksi
+import com.bagicode.alfa3.admin.dashboard.data_transaction.Pesanan.Pesanan
 import com.bumptech.glide.Glide
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-class DetailTransaksiPendingAdapter(private var data: List<isiTransaksi>,
-                                    private val listener: (isiTransaksi) -> Unit)
+class DetailTransaksiPendingAdapter(private var data: ArrayList<Pesanan>,
+                                    private val listener: (Pesanan) -> Unit)
     : RecyclerView.Adapter<DetailTransaksiPendingAdapter.LeagueViewHolder>() {
 
     lateinit var ContextAdapter : Context
@@ -42,7 +43,7 @@ class DetailTransaksiPendingAdapter(private var data: List<isiTransaksi>,
 
 
 
-        fun bindItem(data: isiTransaksi, listener: (isiTransaksi) -> Unit, context : Context, position : Int) {
+        fun bindItem(data: Pesanan, listener: (Pesanan) -> Unit, context: Context, position: Int) {
 
 
             tvTitle.text = data.desc
@@ -58,10 +59,6 @@ class DetailTransaksiPendingAdapter(private var data: List<isiTransaksi>,
                 .load(data.url)
                 .into(tvImage)
 
-//
-//            tvEdit.setOnClickListener {
-//                listener(dataTrans)
-//            }
         }
 
     }

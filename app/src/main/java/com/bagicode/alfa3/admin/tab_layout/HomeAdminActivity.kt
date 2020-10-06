@@ -15,10 +15,13 @@ import com.bagicode.alfa3.admin.dashboard.DashboardActivity
 import com.bagicode.alfa3.admin.dashboard.ProductActivity
 import com.bagicode.alfa3.admin.dashboard.data_user.UserActivity
 import com.bagicode.alfa3.admin.sign.LoginAdminActivity
+import com.bagicode.alfa3.user.home.payment.isiTransaksi
 import com.google.android.material.navigation.NavigationView
 
 class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var mToggle : ActionBarDrawerToggle
+
+    private var DataPesanan = ArrayList<isiTransaksi>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +63,7 @@ class HomeAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             startActivity(Intent(this@HomeAdminActivity, UserActivity::class.java))
         } else if (id == R.id.data_product){
             startActivity(Intent(this@HomeAdminActivity, ProductActivity::class.java))
+
         } else if (id == R.id.data_transaction){
 
         } else if (id == R.id.tvLogout){

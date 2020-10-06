@@ -1,15 +1,17 @@
 package com.bagicode.alfa3.admin.tab_layout.DetailTransaksi
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.admin.dashboard.data_transaction.Pesanan.Pesanan
 import com.bagicode.alfa3.admin.tab_layout.DetailAdapter.DetailTransaksiPendingAdapter
+import com.bagicode.alfa3.admin.tab_layout.HomeAdminActivity
 import com.bagicode.alfa3.user.home.payment.Transaksi
-import com.bagicode.alfa3.user.home.payment.isiTransaksi
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_detail_transaksi_pending.*
 
@@ -17,86 +19,130 @@ import kotlinx.android.synthetic.main.activity_detail_transaksi_pending.*
 class DetailTransaksiPendingActivity : AppCompatActivity() {
 
     lateinit var mDatabase: DatabaseReference
-//    lateinit var isi: isiTransaksi
-    private var isiData = ArrayList<isiTransaksi>()
+    private var dataPesanan = ArrayList<Pesanan>()
 
 
+//    val dataPesanan = intent.getSerializableExtra("Pesanan") as ArrayList<isiTransaksi>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_transaksi_pending)
 
-        val transaksi = intent.getParcelableExtra<Transaksi>("data")
-
-        val keyProduct = transaksi.key
-
-        Log.v("kuncinya", "key is "+transaksi.key)
-        Log.v("usernamenya", "username is "+transaksi.username)
-
-
         mDatabase = FirebaseDatabase.getInstance().reference
             .child("User")
-            .child(transaksi.username)
-            .child("Transaksi")
-            .child(keyProduct.toString())
-            .child("Pesanan")
+
 
 
         rv_detail_pesanan.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         getData()
 
+
+        val transaksi = intent.getParcelableExtra<Transaksi>("data")!!
+
+        val key = transaksi.key.toString()
+        val username = transaksi.username
+
+        btn_terima.setOnClickListener {
+            val hashMap: HashMap<String, String> = HashMap()
+            hashMap["status"] = "Progress"
+
+            mDatabase
+                .child(username)
+                .child("transaksi")
+                .child(key)
+                .updateChildren(hashMap as Map<String,String>)
+
+            finish()
+            startActivity(Intent(this, HomeAdminActivity::class.java))
+
+        }
+
+        btn_tolak.setOnClickListener {
+            mDatabase.child(username)
+                .child("transaksi")
+                .child(key)
+                .removeValue()
+
+            finish()
+            startActivity(Intent(this, HomeAdminActivity::class.java))
+        }
+
+
+
     }
 
     private fun getData() {
-        mDatabase.addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    isiData.clear()
-                    for (getdataSnapshot in dataSnapshot.children){
-                        val isi = getdataSnapshot.getValue(isiTransaksi::class.java)
-                        val keyProduct = getdataSnapshot.key.toString()
-                        val desc = isi?.desc
-                        val jenis = isi?.jenis
-                        val harga = isi?.harga
-                        val url = isi?.url
+        val transaksi = intent.getParcelableExtra<Transaksi>("data")!!
+
+        val key = transaksi.key.toString()
+        val username = transaksi.username
 
 
-                        isiData.add(isiTransaksiData(keyProduct,harga!!,jenis!!,desc!!,url!!))
-                        isiData.add(isi)
-                        Log.v("blableblo", "isi Transaksinya keluar ga?  $isi")
-                        Log.v("blableblo", "Keynya keluar ga?  $keyProduct")
+        Log.v("0192","Key Transaksinya "+key)
+        Log.v("0193","Username Transaksinya "+username)
+
+       mDatabase
+                .child(username)
+                .child("transaksi")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                            dataTrans.clear()
+                        for (getdataTransSnapshot in dataSnapshot.children) {
+                          for (getchild in getdataTransSnapshot.children) {
+                                val getKey = getchild.key.toString()
+                                val getRef = getchild.ref
+
+                                Log.v("1211", "Key Childnya $getKey")
+                                Log.v("1212", "Ref Childnya $getRef")
+
+                                for (getPesanan in getchild.children) {
+                                    val pesanan = getPesanan.getValue(Pesanan::class.java)!!
+                                    val keyPesanan = getPesanan.key.toString()
+                                    val harga = pesanan.harga
+                                    val jenis = pesanan.jenis
+                                    val desc = pesanan.desc
+                                    val url = pesanan.url
 
 
-                    }
-                    if (isiData.isNotEmpty()){
-                        rv_detail_pesanan.adapter = DetailTransaksiPendingAdapter(isiData){
+                                    dataPesanan.add(pesanan)
+//                                dataPesanan.add(getPesanan(keyPesanan,harga!!,jenis!!,desc!!,url!!))
+                                    Log.v("1311", "Pesanan User ==" + dataPesanan)
+                                    Log.v("1310", "Value Pesanan == "+pesanan)
+                                }
 
+
+                            }
                         }
+                        if (dataPesanan.isNotEmpty()){
+                            rv_detail_pesanan.adapter = DetailTransaksiPendingAdapter(dataPesanan){
+
+                            }
+                        }
+
+
                     }
 
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(this@DetailTransaksiPendingActivity, ""+error.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
 
-                }
+                })
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@DetailTransaksiPendingActivity, ""+error.message, Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-            })
     }
 
 
-    private fun isiTransaksiData(
+    private fun getPesanan(
         key: String,
         harga: Int,
         jenis: String,
         desc: String,
         url: String
-    ): isiTransaksi {
-        val isiData = isiTransaksi(
+    ): Pesanan {
+        return Pesanan(
             key, harga, jenis, desc,url
         )
-        return isiData
 
     }
 }

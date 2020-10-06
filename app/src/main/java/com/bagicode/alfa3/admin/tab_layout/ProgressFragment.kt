@@ -1,5 +1,6 @@
 package com.bagicode.alfa3.admin.tab_layout
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
-import com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi.PendingTransaksiAdapter
 import com.bagicode.alfa3.admin.tab_layout.AdapterTransaksi.ProgressTransaksiAdapter
+import com.bagicode.alfa3.admin.tab_layout.DetailTransaksi.DetailTransaksiProgressActivity
 import com.bagicode.alfa3.user.home.payment.Transaksi
 import com.bagicode.alfa3.user.home.payment.isiTransaksi
 import com.bagicode.alfa3.user.log.login.User
@@ -35,7 +36,6 @@ class ProgressFragment : Fragment() {
     private var data = ArrayList<User>()
 
     private var dataTrans = ArrayList<Transaksi>()
-    private var isiTrans = ArrayList<isiTransaksi>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,8 +54,6 @@ class ProgressFragment : Fragment() {
         transRef = FirebaseDatabase.getInstance().getReference("User")
 
 
-
-//        Log.v("user", "Dapatkah usernya $user")
         rv_transaction_progress.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         getData()
 
@@ -70,15 +68,13 @@ class ProgressFragment : Fragment() {
 
                     data.add(dataUser!!)
 
-
-                    Log.v("2222", "Data user"+data)
-                    Log.v("2223", "Data user"+dataUser)
+                    Log.v("2222", "Data user$data")
+                    Log.v("2223", "Data user$dataUser")
 
                 }
 
                 for (a in data.indices){
                     username = data[a].username.toString()
-//                    Log.v("bow","data user is "+username)
                     transRef
                         .child(username)
                         .child("transaksi")
@@ -87,18 +83,19 @@ class ProgressFragment : Fragment() {
 //                            dataTrans.clear()
                                 for (getdataTransSnapshot in dataSnapshot.children){
                                     val transaksi = getdataTransSnapshot.getValue(Transaksi::class.java)
-
-                                    val keyProduct = getdataTransSnapshot.key.toString()
-                                    val nama = transaksi?.nama
-                                    val nomor = transaksi?.nomor
-                                    val bukti = transaksi?.bukti
-                                    val hargaTotal = transaksi?.hargaTotal
-                                    val username = transaksi?.username
+//                                    val keyProduct = getdataTransSnapshot.key.toString()
+//                                    val nama = transaksi?.nama
+//                                    val nomor = transaksi?.nomor
+//                                    val bukti = transaksi?.bukti
+//                                    val hargaTotal = transaksi?.hargaTotal
+//                                    val username = transaksi?.username
+//                                    val status = transaksi?.status
 
 
                                     dataTrans.add(transaksi!!)
-                                    dataTrans.add(setData(keyProduct,username!!, nama!!, nomor!!, hargaTotal!!, bukti!!))
-                                    Log.v("1311","Transaksi User == $transaksi")
+//                                    dataTrans.add(setData(keyProduct,username!!, nama!!, nomor!!,
+//                                                            hargaTotal!!, bukti!!, status!!))
+                                    Log.v("2311","Transaksi User == $transaksi")
 
 
 
@@ -106,7 +103,6 @@ class ProgressFragment : Fragment() {
                                 }
                                 if (dataTrans.isNotEmpty()){
                                     rv_transaction_progress.adapter = ProgressTransaksiAdapter(dataTrans){
-
                                     }
                                 }
 
@@ -120,15 +116,6 @@ class ProgressFragment : Fragment() {
 
                         })
                 }
-
-                Log.v("bow","data user is "+username)
-
-
-
-
-
-
-
             }
 
 
@@ -139,14 +126,4 @@ class ProgressFragment : Fragment() {
 
         })
     }
-
-    private fun setData(keyProduct: String, username: String, nama: String, nomor: String, hargaTotal: Int, bukti: String): Transaksi {
-        val data = Transaksi (
-            keyProduct,username, nama, nomor, hargaTotal,bukti
-        )
-        return data
-
-    }
-
-
 }

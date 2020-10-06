@@ -51,7 +51,6 @@ class BuburActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 data.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
-
                     val buburBesar = getdataSnapshot.getValue(getBuburBesar::class.java)
                     val key = getdataSnapshot.key.toString()
                     val harga = buburBesar?.harga

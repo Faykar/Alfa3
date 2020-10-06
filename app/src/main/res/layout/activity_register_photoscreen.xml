@@ -78,7 +78,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/shape_rectangle_white"
         android:text="Upload SEKARANG"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/btn_later"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

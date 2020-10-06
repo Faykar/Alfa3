@@ -43,7 +43,7 @@ class DetailPuddingActivity : AppCompatActivity() {
         })
 
 
-        // Mengambil data dari Recycler View milik Bubur Kecil
+        // Mengambil data dari Recycler View milik Pudding
         val keyProduct = data.key.toString()
         val desc = data.desc
         val jenis = data.jenis
@@ -51,9 +51,9 @@ class DetailPuddingActivity : AppCompatActivity() {
         val url = data.url
 
         tvStok.text = data.stok.toString()
-        tvTitle.setText(desc)
-        tvJenis.setText(jenis)
-        tvHarga.setText(harga.toString())
+        tvTitle.text = desc
+        tvJenis.text = jenis
+        tvHarga.text = harga.toString()
 
         Glide.with(this)
             .load(data.url)
@@ -81,7 +81,8 @@ class DetailPuddingActivity : AppCompatActivity() {
                         "Produk Ini Sudah Ada Dikeranjang Anda",
                         Toast.LENGTH_LONG).show()
                 } else {
-                    cart.child("cart").push().setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                    cart.child("cart").push()
+                        .setValue(addtoCart(keyProduct, harga,jenis,desc,url))
                     Toast.makeText(
                         this@DetailPuddingActivity,
                         "Berhasil Menambah Ke Keranjang",

@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.bagicode.alfa3.user.home.cart
 
 import android.content.Intent
@@ -36,8 +38,8 @@ class CartActivity() : AppCompatActivity() {
     private var dataTransaction = ArrayList<Transaksi>()
 
 //    Klo ada array yang buat dipanggil ditempat lain, jgn ditaro didalem fungsi, taro dipaling atas biar bisa kepanggil difungsi yang lain
-    val arrListCart = arrayListOf<Transaksi>()
-
+    val arrListTransaksi = arrayListOf<Transaksi>()
+    val arrListisiTransaksi = arrayListOf<isiTransaksi>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
@@ -67,18 +69,8 @@ class CartActivity() : AppCompatActivity() {
 
 //        Button adanya disini, jadi fungsi getData cuma buat ngambil data dari database, trus ngisi arrayListCart
         btn_pay.setOnClickListener {
-            val arrListTransaksi = arrayListOf<isiTransaksi>()
 
-            val isiKey = Ref.child("cart")
-                    .push()
-                    .key
-            listData = isiTransaksi()
-
-            val isiHarga = listData.harga
-            val isiJenis = listData.jenis
-            val isiDesc = listData.desc
-
-            val key = transRef.child("transaksi")
+            val Transkey = transRef.child("transaksi")
                     .push()
                     .key
             val nama = preferences.getValues("nama").toString()
@@ -98,7 +90,7 @@ class CartActivity() : AppCompatActivity() {
                         val nomor = preferences.getValues("nomor").toString()
 //                                val bukti = listTransaksi.bukti.toString()
 
-                        arrListCart.add(listTransaksi)
+                        arrListTransaksi.add(listTransaksi)
                         dataTransaction.add(saveData(keyProduct, username, nama, nomor, hargaTotal, status))
                         Log.v("transaksi", "transaksi" + listTransaksi)
                     }
@@ -111,77 +103,100 @@ class CartActivity() : AppCompatActivity() {
 
             })
 
-            Ref.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    listIsiData.clear()
-                    for (getdataSnapshot in dataSnapshot.children) {
-                        listData = getdataSnapshot.getValue(isiTransaksi::class.java)!!
-                        val isi = getdataSnapshot.getValue(isiTransaksi::class.java)
-                        val keyProduct = getdataSnapshot.key.toString()
-                        val jenis = isi?.jenis
-                        val harga = isi?.harga
-                        val desc = isi?.desc
-                        val url = isi?.url
 
 
-                        listIsiData.add(isiData(keyProduct, harga!!, jenis!!, desc!!,url!!))
-                        arrListTransaksi.add(listData)
-                        Log.v("isinya", "List Isi Transaksi" + listData)
+//            Ref.addValueEventListener(object : ValueEventListener {
+//                override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                    dataCart.clear()
+//                    for (getdataSnapshot in dataSnapshot.children) {
+//                        listCart = getdataSnapshot.getValue(getCart::class.java)!!
+//                        val isi = getdataSnapshot.getValue(getCart::class.java)
+//                        val keyProduct = getdataSnapshot.key.toString()
+//                        val jenis = isi?.jenis
+//                        val harga = isi?.harga
+//                        val desc = isi?.desc
+//                        val url = isi?.url
+//
+//
+////                        listIsiData.add(isiData(keyProduct, harga!!, jenis!!, desc!!,url!!))
+////                        arrListisiTransaksi.add(listCart)
+//                        Log.v("isinya", "List Isi Transaksi" + listCart)
+//
+//
+//                        val isiKey = isiRef.child("transaksi")
+//                            .child(key.toString())
+//                            .child("Pesanan")
+//                            .push()
+//                            .key
+//
+//                        isiRef.child("transaksi")
+//                                .child(key.toString())
+//                                .child("Pesanan")
+//                                .push()
+//                                .setValue(setData(isiKey.toString(), harga!!, jenis!!, desc!!, url!!))
+//
+//                    }
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {
+//                    Toast.makeText(this@CartActivity, "" + error.message, Toast.LENGTH_SHORT)
+//                            .show()
+//                }
+//
+//            })
+
+            if (arrListTransaksi.isEmpty() && arrListisiTransaksi.isEmpty()) {
+                transRef.child("transaksi")
+                        .child(Transkey.toString())
+                        .setValue((saveData(Transkey.toString(),username, nama, nomor, hargaTotal, status)))
+
+
+            } else {
+                if (arrListTransaksi.contains(saveData(Transkey.toString(), username, nama, nomor, hargaTotal, status))) {
+                } else {
+                    transRef.child("transaksi")
+                            .child(Transkey.toString())
+                            .setValue(saveData(Transkey!!, username, nama, nomor, hargaTotal, status))
+                }
+            }
+
+
+            for (a in dataCart.indices){
+
+                val harga = dataCart[a].harga!!.toInt()
+                val jenis = dataCart[a].jenis.toString()
+                val desc = dataCart[a].desc.toString()
+                val key = dataCart[a].key.toString()
+                val url = dataCart[a].url.toString()
+
+
+                    if (arrListisiTransaksi.isEmpty()){
                         isiRef.child("transaksi")
-                                .child(key.toString())
+                            .child((Transkey.toString()))
+                            .child("Pesanan")
+                            .push()
+                            .setValue(isiData(key, harga,jenis, desc, url))
+                    } else {
+                        if (arrListisiTransaksi.contains(isiData(key,harga,jenis,desc, url))){
+                        } else {
+                            isiRef.child("transaksi")
+                                .child(Transkey.toString())
                                 .child("Pesanan")
                                 .push()
-                                .setValue(isiData(keyProduct, harga, jenis, desc, url!!))
+                                .setValue(isiData(key, harga ,jenis, desc,url))
+                        }
 
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@CartActivity, "" + error.message, Toast.LENGTH_SHORT)
-                            .show()
-                }
-
-            })
-
-            if (arrListCart.isEmpty()) {
-                transRef.child("transaksi")
-                        .child(key.toString())
-                        .setValue((saveData(key.toString(),username, nama, nomor, hargaTotal, status)))
-
-
-            } else {
-                if (arrListCart.contains(saveData(key.toString(), username, nama, nomor, hargaTotal, status))) {
-                } else {
-                    transRef.child("transaksi")
-                            .child(key.toString())
-                            .setValue(saveData(key!!, username, nama, nomor, hargaTotal, status))
-                }
-            }
-
-//                    if (arrListTransaksi.isEmpty()){
-//                        isiRef.child("transaksi")
-//                            .child(key.toString())
-//                            .push()
-//                            .setValue(isiData(isiKey.toString(), isiHarga!! ,isiJenis!!, isiDesc!!))
-//                    } else {
-//                        if (arrListTransaksi.contains(isiData(isiKey.toString(),isiHarga!!,isiJenis!!,isiDesc!!))){
-//                        } else {
-//                            isiRef.child("transaksi")
-//                                .child(key.toString())
-//                                .push()
-//                                .setValue(isiData(isiKey.toString(), isiHarga!! ,isiJenis!!, isiDesc!!))
-//                        }
-//
-//                    }
-
-            dataTransaction.add(saveData(key!!, username, nama, nomor, hargaTotal, status))
+            dataTransaction.add(saveData(Transkey!!, username, nama, nomor, hargaTotal, status))
             finish()
             val intent = Intent(applicationContext,
                     PaymentActivity::class.java)
-                    .putExtra("key", key)
+                    .putExtra("key", Transkey)
                     .putExtra("harga", hargaTotal)
                     .putExtra("total", dataTransaction)
-            Log.v("dapat", "Valuenya " + key)
+            Log.v("dapat", "Valuenya " + Transkey)
             Log.v("dapat1", "Valuenya " + hargaTotal)
             Log.v("dapat2", "Valuenya " + dataTransaction)
             startActivity(intent)
@@ -196,14 +211,16 @@ class CartActivity() : AppCompatActivity() {
                 dataCart.clear()
                 for (getdataSnapshot in dataSnapshot.children) {
                     val takeCart = getdataSnapshot.getValue(getCart::class.java)
+                    val takeIsi = getdataSnapshot.getValue(isiTransaksi::class.java)
                     val keyProduct = getdataSnapshot.key.toString()
                     val harga = takeCart?.harga
-                    val stok = takeCart?.stok
                     val jenis = takeCart?.jenis
                     val desc = takeCart?.desc
                     val url = takeCart?.url
-                    dataCart.add(setData(keyProduct, harga!!, stok!!, jenis!!, desc!!, url!!))
+                    dataCart.add(setData(keyProduct, harga!!, jenis!!, desc!!, url!!))
+                    arrListisiTransaksi.add(takeIsi!!)
                     Log.v("blablabla", "Data cartnya apa nih   " + takeCart)
+                    Log.v("bleble", "Data isinya apa nih"+takeIsi)
                 }
 
                 if (dataCart.isNotEmpty()) {
@@ -252,9 +269,9 @@ class CartActivity() : AppCompatActivity() {
 
     }
 
-    private fun setData(key: String, harga: Int, stok: Int, jenis: String, desc: String, url: String): getCart {
+    private fun setData(key: String, harga: Int, jenis: String, desc: String, url: String): getCart {
         val data = getCart(
-                key, harga, jenis, desc, url, stok
+                key, harga, jenis, desc, url
         )
         return data
 

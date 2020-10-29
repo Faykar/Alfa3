@@ -23,14 +23,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_bubur" />
+            android:src="@drawable/ic_bubur"
+            android:contentDescription="Bubur">
+
+        </ImageView>
 
         <ImageView
             android:id="@+id/iv_pudding"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_pudding" />
+            android:src="@drawable/ic_pudding"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="Pudding" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,14 +53,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_tim" />
+            android:src="@drawable/ic_tim"
+            android:contentDescription="Tim" />
 
         <ImageView
             android:id="@+id/iv_riwayat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_history" />
+            android:src="@drawable/ic_history"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="Riwayat" />
     </LinearLayout>
 
     <Button
@@ -65,6 +73,7 @@
         android:background="@drawable/shape_rectangle_white"
         android:drawableLeft="@drawable/ic_cart"
         android:text="PERGI KE KERANJANG"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

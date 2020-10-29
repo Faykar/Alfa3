@@ -49,9 +49,6 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         btn_update.setOnClickListener {
-            val progressDialog = ProgressDialog(this)
-            progressDialog.setTitle("Berhasil Menambahkan Data")
-            progressDialog.show()
             mFirebaseInstance = FirebaseDatabase.getInstance()
             mFirebaseDatabase = mFirebaseInstance.getReference("User")
                 .child(preferences.getValues("user")!!)
@@ -73,6 +70,10 @@ class EditProfileActivity : AppCompatActivity() {
                 et_password.requestFocus()
             } else {
 
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Menambahkan Data...")
+                progressDialog.show()
+
                 val hashMap: HashMap<String, String> = HashMap()
                 hashMap["nama"] = updateNama
                 hashMap["nomor"] = updateNomor
@@ -80,7 +81,6 @@ class EditProfileActivity : AppCompatActivity() {
 
                 mFirebaseDatabase
                     .updateChildren(hashMap as Map<String, Any>)
-
 
                     .addOnSuccessListener {
                         progressDialog.onContentChanged()

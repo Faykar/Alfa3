@@ -10,12 +10,14 @@ import kotlinx.android.synthetic.main.activity_detail_bubur.*
 import com.bagicode.alfa3.user.home.bubur.model.getBuburBesar
 import com.bagicode.alfa3.utils.Preferences
 import com.google.firebase.database.*
+import kotlin.properties.Delegates
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailBuburBesarActivity : AppCompatActivity() {
 
     lateinit var cart: DatabaseReference
     lateinit var preference: Preferences
+    lateinit var refBubur : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +26,16 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         val data = intent.getParcelableExtra<getBuburBesar>("data besar")
         val arrListCart = arrayListOf<getBuburBesar>()
 
-
         Log.v("testing","bubur besar "+data.desc.toString())
+        Log.v("Kunci","Kunci "+data.key.toString())
         preference = Preferences(applicationContext)
         cart = FirebaseDatabase.getInstance()
                 .getReference("User")
                 .child(preference.getValues("user").toString())
+
+        refBubur = FirebaseDatabase.getInstance()
+            .getReference("Bubur Besar")
+            .child(data.key.toString())
 
         cart.child("cart").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -50,6 +56,13 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         val jenis = data.jenis
         val harga = data.harga
         val url = data.url
+        val stok = data.stok!!.toInt()
+
+
+        // Update Stok
+        val updateStok = stok - 1
+
+
 
         tvStok.text = data.stok.toString()
         tvTitle.setText(desc)
@@ -68,32 +81,52 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
         btn_add.setOnClickListener {
             finish()
-            if (arrListCart.isEmpty()) {
-                cart.child("cart")
-                    .push()
-                    .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
-                Toast.makeText(
-                        this@DetailBuburBesarActivity,
-                        "Berhasil Menambah Ke Keranjang",
-                        Toast.LENGTH_LONG).show()
-            } else {
-                if (arrListCart.contains(addtoCart(keyProduct,harga!!,jenis,desc,url))) {
-                    Toast.makeText(
-                            this@DetailBuburBesarActivity,
-                            "Produk Ini Sudah Ada Dikeranjang Anda",
-                            Toast.LENGTH_LONG).show()
-                } else {
+            if (stok >= 1) {
+                if (arrListCart.isEmpty()) {
+                    val hashMap: HashMap<String, Any> = HashMap()
+                    hashMap["stok"] = updateStok
+                    refBubur
+                        .updateChildren(hashMap as Map<String, Any>)
                     cart.child("cart")
                         .push()
-                        .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                        .setValue(addtoCart(keyProduct, harga!!, jenis, desc, url))
                     Toast.makeText(
+                        this@DetailBuburBesarActivity,
+                        "Berhasil Menambah Ke Keranjang",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (arrListCart.contains(addtoCart(keyProduct, harga!!, jenis, desc, url))) {
+                        Toast.makeText(
+                            this@DetailBuburBesarActivity,
+                            "Produk Ini Sudah Ada Dikeranjang Anda",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    } else {
+                        val hashMap: HashMap<String, Any> = HashMap()
+                        hashMap["stok"] = updateStok
+                        refBubur
+                            .updateChildren(hashMap as Map<String, Any>)
+                        cart.child("cart")
+                            .push()
+                            .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                        Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Berhasil Menambah Ke Keranjang",
                             Toast.LENGTH_LONG).show()
+                    }
                 }
+            } else if (stok == 0) {
+                Toast.makeText(
+                    this@DetailBuburBesarActivity, "Stok Habis Silahkan Order Menu yang lain"
+                    , Toast.LENGTH_SHORT
+                )
+                    .show()
             }
 
         }
+
 
     }
 

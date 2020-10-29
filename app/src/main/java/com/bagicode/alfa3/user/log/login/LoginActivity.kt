@@ -1,5 +1,6 @@
 package com.bagicode.alfa3.user.log.login
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -38,6 +39,23 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        icon.setOnClickListener {
+            if (directSecret) {
+                return@setOnClickListener
+            }
+
+            this.directSecret = true
+
+            val intent = Intent(this@LoginActivity,
+                LoginAdminActivity::class.java)
+            startActivity(intent)
+
+            Handler().postDelayed(Runnable {
+                directSecret = false
+            }, 3000)
+
+        }
 
         mDatabase = FirebaseDatabase.getInstance().getReference("User")
         preferences = Preferences(this)
@@ -79,21 +97,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
         // Panel Admin
-        icon.setOnClickListener {
-            if (directSecret) {
-                return@setOnClickListener
-            }
-            this.directSecret = true
 
-
-            Handler().postDelayed(Runnable {
-                val intent = Intent(this@LoginActivity,
-                    LoginAdminActivity::class.java)
-                startActivity(intent)
-                directSecret = false
-            }, 3000)
-
-        }
     }
     private fun pushLogin(iUsername: String, iPassword: String) {
         mDatabase.child(iUsername).addValueEventListener(object : ValueEventListener {
@@ -101,7 +105,10 @@ class LoginActivity : AppCompatActivity() {
 
                 val user = dataSnapshot.getValue(User::class.java)
                 if (user == null) {
-                    Toast.makeText(this@LoginActivity, "User tidak ditemukan", Toast.LENGTH_LONG).show()
+                    val progressDialog = ProgressDialog(this@LoginActivity)
+                    progressDialog.setTitle("Tidak menemukan user")
+                    progressDialog.show()
+
 
                 } else {
                     if (user.password.equals(iPassword)){
@@ -117,11 +124,14 @@ class LoginActivity : AppCompatActivity() {
                         finishAffinity()
 
                         val intent = Intent(this@LoginActivity,
-                            HomeActivity::class.java).putExtra("user", user)
+                            HomeActivity::class.java)
+                            .putExtra("user", user)
                         startActivity(intent)
 
                     } else {
-                        Toast.makeText(this@LoginActivity, "Password Anda Salah", Toast.LENGTH_LONG).show()
+                        val progressDialog = ProgressDialog(this@LoginActivity)
+                        progressDialog.setTitle("Password Salah")
+                        progressDialog.show()
                     }
 
                 }

@@ -39,6 +39,10 @@ class TransactionActivity : AppCompatActivity() {
 //        Log.v("user", "Dapatkah usernya $user")
         rv_transaction_user.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
         getData()
+
+        iv_back.setOnClickListener {
+            finish()
+        }
     }
     private fun getData() {
         mDatabase.addValueEventListener(object : ValueEventListener {

@@ -67,6 +67,11 @@ class CartActivity() : AppCompatActivity() {
         rv_cart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         getData()
 
+        iv_back.setOnClickListener {
+            finish()
+
+        }
+
 //        Button adanya disini, jadi fungsi getData cuma buat ngambil data dari database, trus ngisi arrayListCart
         btn_pay.setOnClickListener {
 

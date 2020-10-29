@@ -5,11 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".admin.tab_layout.CompleteFragment">
 
-    <TextView
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_transaction_complete"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="40sp"
-        android:text="Page 3" />
+        android:layout_width="match_parent"/>
 
 </FrameLayout>

@@ -29,13 +29,10 @@ class PendingFragment : Fragment() {
 
     lateinit var mDatabase: DatabaseReference
     lateinit var transRef : DatabaseReference
-    lateinit var Ref : DatabaseReference
-    lateinit var user: User
+
     private var username : String = ""
-    lateinit var transaksi: Transaksi
 
     private var data = ArrayList<User>()
-    private var isiDataTransaksi = ArrayList<isiTransaksi>()
     private var dataTrans = ArrayList<Transaksi>()
     private var dataPesanan = ArrayList<Pesanan>()
     

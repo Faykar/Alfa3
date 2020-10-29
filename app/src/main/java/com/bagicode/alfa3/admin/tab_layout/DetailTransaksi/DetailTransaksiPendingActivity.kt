@@ -33,6 +33,10 @@ class DetailTransaksiPendingActivity : AppCompatActivity() {
 
 
 
+        iv_back.setOnClickListener {
+            finish()
+        }
+
         rv_detail_pesanan.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         getData()
@@ -129,20 +133,6 @@ class DetailTransaksiPendingActivity : AppCompatActivity() {
                     }
 
                 })
-
-    }
-
-
-    private fun getPesanan(
-        key: String,
-        harga: Int,
-        jenis: String,
-        desc: String,
-        url: String
-    ): Pesanan {
-        return Pesanan(
-            key, harga, jenis, desc,url
-        )
 
     }
 }

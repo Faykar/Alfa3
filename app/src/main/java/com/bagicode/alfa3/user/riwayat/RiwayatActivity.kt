@@ -2,44 +2,66 @@ package com.bagicode.alfa3.user.riwayat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
+import com.bagicode.alfa3.user.home.cart.CartAdapter
+import com.bagicode.alfa3.user.home.cart.getCart
+import com.bagicode.alfa3.user.home.payment.Transaksi
+import com.bagicode.alfa3.user.home.payment.isiTransaksi
 import com.bagicode.alfa3.user.home.pudding.model.addPudding
-import com.google.firebase.database.FirebaseDatabase
+import com.bagicode.alfa3.utils.Preferences
+import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_riwayat.*
 
 class RiwayatActivity : AppCompatActivity() {
-    val database = FirebaseDatabase.getInstance()
-    val myRef = database.getReference("Pudding")
-    val arrayUser = arrayListOf<addPudding>()
+    lateinit var mDatabase: DatabaseReference
+    lateinit var preferences: Preferences
+
+    private var dataTrans = ArrayList<Transaksi>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_riwayat)
 
-        btn_save.setOnClickListener {
-            val desc = desc.text.toString()
-            val url = url.text.toString()
-            val jenis = jenis.text.toString()
-            val stok = stok.text.toString().toInt()
-            val harga = hrg.text.toString().toInt()
-            addingPudding(desc,url,jenis,stok,harga)
-            Toast.makeText(applicationContext, "Berhasil", Toast.LENGTH_SHORT).show()
+        preferences = Preferences(this)
 
-        }
-    }
-    private fun addingPudding(desc: String, url: String, jenis: String, stok: Int, harga: Int){
-        val pudding = addPudding(
-            desc,
-            url,
-            jenis,
-            stok,
-            harga
-        )
-        myRef.push().setValue(pudding)
+        mDatabase =  FirebaseDatabase.getInstance().getReference("User")
+            .child(preferences.getValues("user").toString())
+
+        rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        getData()
     }
 
+    private fun getData(){
+        mDatabase.child("transaksi").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataTrans.clear()
+                for (getdataSnapshot in dataSnapshot.children) {
+                    val transaksi = getdataSnapshot.getValue(Transaksi::class.java)!!
+                    Log.v("blablabla", "Data cartnya apa nih   " + transaksi)
 
+                    dataTrans.add(transaksi)
 
+                }
+
+                if (dataTrans.isNotEmpty()) {
+                    rv_history.adapter = RiwayatAdapter(dataTrans) {
+
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@RiwayatActivity, "" + error.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        })
+    }
 }
+

@@ -69,7 +69,8 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
         val Nomor = preferences.getValues("nomor")
 //        for (a in transaksi.indices){
 //            hargaTotal + transaksi[a].hargaTotal!!
-//
+
+
 
         tvNama.text = Nama
         tvNomor.text = Nomor

@@ -7,8 +7,7 @@
     android:background="@drawable/shape_rectangle_black_border"
     android:layout_marginTop="10dp"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:visibility="visible">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/iv_poster"
@@ -26,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </androidx.cardview.widget.CardView>
-    
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="70dp"

@@ -24,7 +24,7 @@
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="90dp"
             android:gravity="center_vertical"
 
 
@@ -64,7 +64,7 @@
 
             android:layout_marginTop="30dp"
             android:ems="10"
-            android:inputType="textPassword"
+            android:inputType="textPersonName"
             app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/et_nama" />
 
@@ -87,7 +87,7 @@
 
             android:layout_marginTop="30dp"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
 
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/et_username" />

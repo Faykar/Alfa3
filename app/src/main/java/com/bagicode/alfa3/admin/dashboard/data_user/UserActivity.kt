@@ -31,9 +31,6 @@ class UserActivity : AppCompatActivity() {
         rv_admin_user.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         getData()
 
-
-
-
         iv_back.setOnClickListener {
             finish()
         }

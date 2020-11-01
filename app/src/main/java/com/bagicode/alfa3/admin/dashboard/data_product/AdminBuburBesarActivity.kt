@@ -45,10 +45,11 @@ class AdminBuburBesarActivity : AppCompatActivity() {
                     val key = getdataSnapshot.key.toString()
                     val harga = buburBesar?.harga
                     val stok = buburBesar?.stok
+                    val jumlah = buburBesar?.jumlah
                     val jenis = buburBesar?.jenis
                     val desc = buburBesar?.desc
                     val url = buburBesar?.url
-                    data.add(setData(key, harga!!, jenis!!, stok!!, desc!!, url!!))
+                    data.add(setData(key, harga!!, jenis!!, stok!!, desc!!, jumlah!!,url!!))
                     Log.v("bubur", "cek data bubur"+buburBesar)
                     Log.v("Hehe","Check Key "+ getdataSnapshot.key)
                     Log.v("Hehe","Check Key "+ buburBesar?.harga)
@@ -74,12 +75,13 @@ class AdminBuburBesarActivity : AppCompatActivity() {
         })
     }
 
-    private fun setData(key: String,harga: Int,jenis: String, stok: Int,desc: String, url: String): getBuburBesar {
+    private fun setData(key: String,harga: Int,jenis: String, stok: Int,desc: String,jumlah: Int, url: String): getBuburBesar {
         val data = getBuburBesar(
             key,
             harga,
             jenis,
             desc,
+            jumlah,
             url,
             stok
         )

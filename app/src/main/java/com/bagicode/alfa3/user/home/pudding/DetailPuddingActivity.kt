@@ -14,6 +14,7 @@ class DetailPuddingActivity : AppCompatActivity() {
     lateinit var mDatabase: DatabaseReference
     lateinit var cart: DatabaseReference
     lateinit var preference: Preferences
+    lateinit var refPudd : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,9 @@ class DetailPuddingActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance().getReference("Pudding")
             .child(data.desc.toString())
         preference = Preferences(applicationContext)
+        refPudd = FirebaseDatabase.getInstance().getReference("Pudding")
+            .child(data.key.toString())
+
         cart = FirebaseDatabase.getInstance()
             .getReference("User")
             .child(preference.getValues("user").toString())
@@ -49,6 +53,10 @@ class DetailPuddingActivity : AppCompatActivity() {
         val jenis = data.jenis
         val harga = data.harga
         val url = data.url
+        val stok = data.stok!!.toInt()
+
+        // Update Stok
+        val updateStok = stok - 1
 
         tvStok.text = data.stok.toString()
         tvTitle.text = desc
@@ -66,28 +74,48 @@ class DetailPuddingActivity : AppCompatActivity() {
 
         btn_add.setOnClickListener {
             finish()
-            if (arrListCart.isEmpty()) {
-                cart.child("cart")
-                    .push()
-                    .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
-                Toast.makeText(
-                    this@DetailPuddingActivity,
-                    "Berhasil Menambah Ke Keranjang",
-                    Toast.LENGTH_LONG).show()
-            } else {
-                if (arrListCart.contains(addtoCart(keyProduct,harga!!,jenis,desc,url))) {
-                    Toast.makeText(
-                        this@DetailPuddingActivity,
-                        "Produk Ini Sudah Ada Dikeranjang Anda",
-                        Toast.LENGTH_LONG).show()
-                } else {
-                    cart.child("cart").push()
-                        .setValue(addtoCart(keyProduct, harga,jenis,desc,url))
+            if (stok >= 1) {
+                if (arrListCart.isEmpty()) {
+                    val hashMap: HashMap<String, Any> = HashMap()
+                    hashMap["stok"] = updateStok
+                    refPudd
+                        .updateChildren(hashMap as Map<String, Any>)
+                    cart.child("cart")
+                        .push()
+                        .setValue(addtoCart(keyProduct, harga!!, jenis, desc, url))
                     Toast.makeText(
                         this@DetailPuddingActivity,
                         "Berhasil Menambah Ke Keranjang",
-                        Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (arrListCart.contains(addtoCart(keyProduct, harga!!, jenis, desc, url))) {
+                        Toast.makeText(
+                            this@DetailPuddingActivity,
+                            "Produk Ini Sudah Ada Dikeranjang Anda",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    } else {
+                        val hashMap: HashMap<String, Any> = HashMap()
+                        hashMap["stok"] = updateStok
+                        refPudd
+                            .updateChildren(hashMap as Map<String, Any>)
+                        cart.child("cart")
+                            .push()
+                            .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                        Toast.makeText(
+                            this@DetailPuddingActivity,
+                            "Berhasil Menambah Ke Keranjang",
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
+            } else if (stok == 0) {
+                Toast.makeText(
+                    this@DetailPuddingActivity, "Stok Habis Silahkan Order Menu yang lain"
+                    , Toast.LENGTH_SHORT
+                )
+                    .show()
             }
 
         }

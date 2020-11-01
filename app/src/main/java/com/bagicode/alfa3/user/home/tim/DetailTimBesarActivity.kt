@@ -21,6 +21,7 @@ class DetailTimBesarActivity : AppCompatActivity() {
     lateinit var mDatabase: DatabaseReference
     lateinit var cart: DatabaseReference
     lateinit var preference: Preferences
+    lateinit var refTim : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,10 @@ class DetailTimBesarActivity : AppCompatActivity() {
             .child(data.desc.toString())
 
         preference = Preferences(applicationContext)
+        refTim = FirebaseDatabase.getInstance()
+            .getReference("Tim Besar")
+            .child(data.key.toString())
+
         cart = FirebaseDatabase.getInstance()
             .getReference("User")
             .child(preference.getValues("user").toString())
@@ -57,6 +62,10 @@ class DetailTimBesarActivity : AppCompatActivity() {
         val jenis = data.jenis
         val harga = data.harga
         val url = data.url
+        val stok = data.stok!!.toInt()
+
+        //Update Stok
+        val updateStok = stok - 1
 
         tvStok.text = data.stok.toString()
         tvTitle.setText(desc)
@@ -74,27 +83,48 @@ class DetailTimBesarActivity : AppCompatActivity() {
 
         btn_add.setOnClickListener {
             finish()
-            if (arrListCart.isEmpty()) {
-                cart.child("cart")
-                    .push()
-                    .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
-                Toast.makeText(
-                    this@DetailTimBesarActivity,
-                    "Berhasil Menambah Ke Keranjang",
-                    Toast.LENGTH_LONG).show()
-            } else {
-                if (arrListCart.contains(addtoCart(keyProduct,harga!!,jenis,desc,url))) {
-                    Toast.makeText(
-                        this@DetailTimBesarActivity,
-                        "Produk Ini Sudah Ada Dikeranjang Anda",
-                        Toast.LENGTH_LONG).show()
-                } else {
-                    cart.child("cart").push().setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+            if (stok >= 1) {
+                if (arrListCart.isEmpty()) {
+                    val hashMap: HashMap<String, Any> = HashMap()
+                    hashMap["stok"] = updateStok
+                    refTim
+                        .updateChildren(hashMap as Map<String, Any>)
+                    cart.child("cart")
+                        .push()
+                        .setValue(addtoCart(keyProduct, harga!!, jenis, desc, url))
                     Toast.makeText(
                         this@DetailTimBesarActivity,
                         "Berhasil Menambah Ke Keranjang",
-                        Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (arrListCart.contains(addtoCart(keyProduct, harga!!, jenis, desc, url))) {
+                        Toast.makeText(
+                            this@DetailTimBesarActivity,
+                            "Produk Ini Sudah Ada Dikeranjang Anda",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    } else {
+                        val hashMap: HashMap<String, Any> = HashMap()
+                        hashMap["stok"] = updateStok
+                        refTim
+                            .updateChildren(hashMap as Map<String, Any>)
+                        cart.child("cart")
+                            .push()
+                            .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                        Toast.makeText(
+                            this@DetailTimBesarActivity,
+                            "Berhasil Menambah Ke Keranjang",
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
+            } else if (stok == 0) {
+                Toast.makeText(
+                    this@DetailTimBesarActivity, "Stok Habis Silahkan Order Menu yang lain"
+                    , Toast.LENGTH_SHORT
+                )
+                    .show()
             }
 
         }

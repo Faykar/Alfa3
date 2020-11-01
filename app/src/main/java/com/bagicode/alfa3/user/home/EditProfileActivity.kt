@@ -28,8 +28,6 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var mFirebaseInstance: FirebaseDatabase
     lateinit var mFirebaseDatabase: DatabaseReference
 
-
-
     @SuppressLint("ShowToast")
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,16 +40,18 @@ class EditProfileActivity : AppCompatActivity() {
         val showNama = preferences.getValues("nama").toString()
         val showNomor = preferences.getValues("nomor").toString()
         val showPassword = preferences.getValues("password").toString()
-//        val showUsername = preferences.getValues("user").toString()
+        // val showUsername = preferences.getValues("user").toString()
         et_nama.setText(showNama)
         et_nomor.setText(showNomor)
         et_password.setText(showPassword)
 
+        mFirebaseInstance = FirebaseDatabase.getInstance()
+        mFirebaseDatabase = mFirebaseInstance.getReference("User")
+            .child(preferences.getValues("user")!!)
+
+
 
         btn_update.setOnClickListener {
-            mFirebaseInstance = FirebaseDatabase.getInstance()
-            mFirebaseDatabase = mFirebaseInstance.getReference("User")
-                .child(preferences.getValues("user")!!)
 
             updateNama = et_nama.text.toString()
             updateNomor = et_nomor.text.toString()

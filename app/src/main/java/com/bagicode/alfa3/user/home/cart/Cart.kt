@@ -10,6 +10,7 @@ data class getCart (
     var harga: Int ?= 0,
     var jenis: String ?="",
     var desc: String ?="",
+    var jumlah: Int ?= 1,
     var url: String ?="",
     var stok: Int ?= 0
 ) : Parcelable

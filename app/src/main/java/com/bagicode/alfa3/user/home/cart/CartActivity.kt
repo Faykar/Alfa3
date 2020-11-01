@@ -23,8 +23,6 @@ class CartActivity() : AppCompatActivity() {
     lateinit var Ref: DatabaseReference
     lateinit var isiRef: DatabaseReference
     lateinit var listTransaksi: Transaksi
-    lateinit var listCart: getCart
-    lateinit var listData: isiTransaksi
 
     lateinit var keyProduct: String
     lateinit var bukti: String
@@ -34,7 +32,6 @@ class CartActivity() : AppCompatActivity() {
 
     lateinit var preferences: Preferences
     private var dataCart = ArrayList<getCart>()
-    private var listIsiData = ArrayList<isiTransaksi>()
     private var dataTransaction = ArrayList<Transaksi>()
 
 //    Klo ada array yang buat dipanggil ditempat lain, jgn ditaro didalem fungsi, taro dipaling atas biar bisa kepanggil difungsi yang lain
@@ -218,11 +215,12 @@ class CartActivity() : AppCompatActivity() {
                     val takeCart = getdataSnapshot.getValue(getCart::class.java)
                     val takeIsi = getdataSnapshot.getValue(isiTransaksi::class.java)
                     val keyProduct = getdataSnapshot.key.toString()
-                    val harga = takeCart?.harga
-                    val jenis = takeCart?.jenis
-                    val desc = takeCart?.desc
-                    val url = takeCart?.url
-                    dataCart.add(setData(keyProduct, harga!!, jenis!!, desc!!, url!!))
+                    val jumlah = takeCart?.jumlah
+                    val harga = takeCart?.harga!!
+                    val jenis = takeCart.jenis
+                    val desc = takeCart.desc
+                    val url = takeCart.url
+                    dataCart.add(setData(keyProduct, harga, jenis!!, desc!!,jumlah!!, url!!))
                     arrListisiTransaksi.add(takeIsi!!)
                     Log.v("blablabla", "Data cartnya apa nih   " + takeCart)
                     Log.v("bleble", "Data isinya apa nih"+takeIsi)
@@ -233,7 +231,7 @@ class CartActivity() : AppCompatActivity() {
                     }
                 }
                 for (a in dataCart.indices) {
-                    hargaTotal += dataCart[a].harga!!
+                    hargaTotal = dataCart[a].harga!! * dataCart[a].jumlah!!
                 }
                 tvJumlah.text = hargaTotal.toString()
 
@@ -263,22 +261,20 @@ class CartActivity() : AppCompatActivity() {
     }
 
     private fun saveData(key: String, username: String, nama: String, nomor: String, hargaTotal: Int, status: String): Transaksi {
-        val dataTrans = Transaksi(
+        return Transaksi(
                 key,
                 username,
                 nama, nomor,
                 hargaTotal,
                 status
         )
-        return dataTrans
 
     }
 
-    private fun setData(key: String, harga: Int, jenis: String, desc: String, url: String): getCart {
-        val data = getCart(
-                key, harga, jenis, desc, url
+    private fun setData(key: String, harga: Int, jenis: String, desc: String, jumlah: Int, url: String): getCart {
+        return getCart(
+                key, harga, jenis, desc, jumlah, url
         )
-        return data
 
     }
 

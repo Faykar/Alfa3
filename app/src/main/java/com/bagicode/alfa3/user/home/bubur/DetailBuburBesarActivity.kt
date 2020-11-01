@@ -55,6 +55,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
         val desc = data.desc
         val jenis = data.jenis
         val harga = data.harga
+        val jumlah = data.jumlah
         val url = data.url
         val stok = data.stok!!.toInt()
 
@@ -83,20 +84,22 @@ class DetailBuburBesarActivity : AppCompatActivity() {
             finish()
             if (stok >= 1) {
                 if (arrListCart.isEmpty()) {
+                    // Realtime Database Stok
                     val hashMap: HashMap<String, Any> = HashMap()
                     hashMap["stok"] = updateStok
                     refBubur
                         .updateChildren(hashMap as Map<String, Any>)
+                    // Add to Cart User
                     cart.child("cart")
                         .push()
-                        .setValue(addtoCart(keyProduct, harga!!, jenis, desc, url))
+                        .setValue(addtoCart(keyProduct, harga!!, jenis, desc, jumlah!!,url))
                     Toast.makeText(
                         this@DetailBuburBesarActivity,
                         "Berhasil Menambah Ke Keranjang",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    if (arrListCart.contains(addtoCart(keyProduct, harga!!, jenis, desc, url))) {
+                    if (arrListCart.contains(addtoCart(keyProduct, harga!!, jenis, desc, jumlah!!,url))) {
                         Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Produk Ini Sudah Ada Dikeranjang Anda",
@@ -110,7 +113,7 @@ class DetailBuburBesarActivity : AppCompatActivity() {
                             .updateChildren(hashMap as Map<String, Any>)
                         cart.child("cart")
                             .push()
-                            .setValue(addtoCart(keyProduct,harga!!,jenis,desc,url))
+                            .setValue(addtoCart(keyProduct, harga,jenis,desc,jumlah,url))
                         Toast.makeText(
                             this@DetailBuburBesarActivity,
                             "Berhasil Menambah Ke Keranjang",
@@ -130,9 +133,9 @@ class DetailBuburBesarActivity : AppCompatActivity() {
 
     }
 
-    private fun addtoCart(key: String, harga: Int, jenis: String?, desc: String?, url: String?) : getBuburBesar {
+    private fun addtoCart(key: String, harga: Int, jenis: String?, desc: String?, jumlah:Int , url: String?) : getBuburBesar {
         val data = getBuburBesar (
-            key, harga, jenis, desc, url
+            key, harga, jenis, desc,jumlah, url
         )
         return data
 

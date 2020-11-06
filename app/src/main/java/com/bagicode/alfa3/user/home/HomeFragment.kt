@@ -27,19 +27,6 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_home, container, false)
-//        val mWebView = webview.findViewById<WebView>(R.id.webview)
-//        mWebView.loadUrl("google.com")
-//
-//        // Enable Javascript
-//
-//        // Enable Javascript
-//        val webSettings: WebSettings = mWebView.getSettings()
-//        webSettings.javaScriptEnabled = true
-//
-//        // Force links and redirects to open in the WebView instead of in a browser
-//
-//        // Force links and redirects to open in the WebView instead of in a browser
-//        mWebView.setWebViewClient(WebViewClient())
 
         return v
     }

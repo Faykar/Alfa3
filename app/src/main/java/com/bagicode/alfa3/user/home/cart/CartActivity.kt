@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bagicode.alfa3.R
@@ -69,43 +70,65 @@ class CartActivity() : AppCompatActivity() {
 
         }
 
-//        Button adanya disini, jadi fungsi getData cuma buat ngambil data dari database, trus ngisi arrayListCart
-        btn_pay.setOnClickListener {
 
-            val Transkey = transRef.child("transaksi")
+//        Button adanya disini, jadi fungsi getData cuma buat ngambil data dari database, trus ngisi arrayListCart
+        if (hargaTotal >= 0) {
+            btn_pay.visibility = View.VISIBLE
+        } else {
+            btn_pay.visibility = View.INVISIBLE
+        }
+            btn_pay.setOnClickListener {
+
+                val Transkey = transRef.child("transaksi")
                     .push()
                     .key
-            val nama = preferences.getValues("nama").toString()
-            val username = preferences.getValues("user").toString()
-            val nomor = preferences.getValues("nomor").toString()
-            val status = ("on going")
+                val nama = preferences.getValues("nama")
+                    .toString()
+                val username = preferences.getValues("user")
+                    .toString()
+                val nomor = preferences.getValues("nomor")
+                    .toString()
+                val status = ("on going")
 
-            transRef.child("transaksi").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (getSnapshot in dataSnapshot.children) {
-                        listTransaksi = getSnapshot.getValue(Transaksi::class.java)!!
-                        val arrTrans = getSnapshot.getValue(Transaksi::class.java)!!
+                transRef.child("transaksi")
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (getSnapshot in dataSnapshot.children) {
+                                listTransaksi = getSnapshot.getValue(Transaksi::class.java)!!
 
-                        val keyProduct = getSnapshot.key.toString()
-                        val nama = preferences.getValues("nama").toString()
-                        val username = preferences.getValues("user").toString()
-                        val nomor = preferences.getValues("nomor").toString()
-//                                val bukti = listTransaksi.bukti.toString()
+                                val keyProduct = getSnapshot.key.toString()
+                                val nama = preferences.getValues("nama")
+                                    .toString()
+                                val username = preferences.getValues("user")
+                                    .toString()
+                                val nomor = preferences.getValues("nomor")
+                                    .toString()
 
-                        arrListTransaksi.add(listTransaksi)
-                        dataTransaction.add(saveData(keyProduct, username, nama, nomor, hargaTotal, status))
-                        Log.v("transaksi", "transaksi" + listTransaksi)
-                    }
-                }
+                                arrListTransaksi.add(listTransaksi)
+                                dataTransaction.add(
+                                    saveData(
+                                        keyProduct,
+                                        username,
+                                        nama,
+                                        nomor,
+                                        hargaTotal,
+                                        status
+                                    )
+                                )
+                                Log.v("transaksi", "transaksi" + listTransaksi)
+                            }
+                        }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@CartActivity, "" + error.message, Toast.LENGTH_SHORT)
-                            .show()
-                }
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(
+                                this@CartActivity,
+                                "" + error.message,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
 
-            })
-
-
+                    })
 
 //            Ref.addValueEventListener(object : ValueEventListener {
 //                override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -147,62 +170,92 @@ class CartActivity() : AppCompatActivity() {
 //
 //            })
 
-            if (arrListTransaksi.isEmpty() && arrListisiTransaksi.isEmpty()) {
-                transRef.child("transaksi")
-                        .child(Transkey.toString())
-                        .setValue((saveData(Transkey.toString(),username, nama, nomor, hargaTotal, status)))
-
-
-            } else {
-                if (arrListTransaksi.contains(saveData(Transkey.toString(), username, nama, nomor, hargaTotal, status))) {
-                } else {
+                if (arrListTransaksi.isEmpty() && arrListisiTransaksi.isEmpty()) {
                     transRef.child("transaksi")
+                        .child(Transkey.toString())
+                        .setValue(
+                            (saveData(
+                                Transkey.toString(),
+                                username,
+                                nama,
+                                nomor,
+                                hargaTotal,
+                                status
+                            ))
+                        )
+
+
+                } else {
+                    if (arrListTransaksi.contains(
+                            saveData(
+                                Transkey.toString(),
+                                username,
+                                nama,
+                                nomor,
+                                hargaTotal,
+                                status
+                            )
+                        )
+                    ) {
+                    } else {
+                        transRef.child("transaksi")
                             .child(Transkey.toString())
-                            .setValue(saveData(Transkey!!, username, nama, nomor, hargaTotal, status))
+                            .setValue(
+                                saveData(
+                                    Transkey!!,
+                                    username,
+                                    nama,
+                                    nomor,
+                                    hargaTotal,
+                                    status
+                                )
+                            )
+                    }
                 }
-            }
+
+                for (a in dataCart.indices) {
+
+                    val harga = dataCart[a].harga!!.toInt()
+                    val jenis = dataCart[a].jenis.toString()
+                    val desc = dataCart[a].desc.toString()
+                    val key = dataCart[a].key.toString()
+                    val url = dataCart[a].url.toString()
 
 
-            for (a in dataCart.indices){
-
-                val harga = dataCart[a].harga!!.toInt()
-                val jenis = dataCart[a].jenis.toString()
-                val desc = dataCart[a].desc.toString()
-                val key = dataCart[a].key.toString()
-                val url = dataCart[a].url.toString()
-
-
-                    if (arrListisiTransaksi.isEmpty()){
+                    if (arrListisiTransaksi.isEmpty()) {
                         isiRef.child("transaksi")
                             .child((Transkey.toString()))
                             .child("Pesanan")
                             .push()
-                            .setValue(isiData(key, harga,jenis, desc, url))
+                            .setValue(isiData(key, harga, jenis, desc, url))
                     } else {
-                        if (arrListisiTransaksi.contains(isiData(key,harga,jenis,desc, url))){
+                        if (arrListisiTransaksi.contains(isiData(key, harga, jenis, desc, url))) {
                         } else {
                             isiRef.child("transaksi")
                                 .child(Transkey.toString())
                                 .child("Pesanan")
                                 .push()
-                                .setValue(isiData(key, harga ,jenis, desc,url))
+                                .setValue(isiData(key, harga, jenis, desc, url))
                         }
 
                     }
                 }
 
-            dataTransaction.add(saveData(Transkey!!, username, nama, nomor, hargaTotal, status))
-            finish()
-            val intent = Intent(applicationContext,
-                    PaymentActivity::class.java)
+                dataTransaction.add(saveData(Transkey!!, username, nama, nomor, hargaTotal, status))
+                finish()
+                val intent = Intent(
+                    applicationContext,
+                    PaymentActivity::class.java
+                )
                     .putExtra("key", Transkey)
                     .putExtra("harga", hargaTotal)
                     .putExtra("total", dataTransaction)
-            Log.v("dapat", "Valuenya " + Transkey)
-            Log.v("dapat1", "Valuenya " + hargaTotal)
-            Log.v("dapat2", "Valuenya " + dataTransaction)
-            startActivity(intent)
-        }
+                Log.v("dapat", "Valuenya " + Transkey)
+                Log.v("dapat1", "Valuenya " + hargaTotal)
+                Log.v("dapat2", "Valuenya " + dataTransaction)
+                startActivity(intent)
+            }
+
 
     }
 
@@ -228,12 +281,15 @@ class CartActivity() : AppCompatActivity() {
 
                 if (dataCart.isNotEmpty()) {
                     rv_cart.adapter = CartAdapter(dataCart) {
+
                     }
-                }
                 for (a in dataCart.indices) {
-                    hargaTotal = dataCart[a].harga!! * dataCart[a].jumlah!!
+                    hargaTotal += dataCart[a].harga!! * dataCart[a].jumlah!!
+                    tvJumlah.text = hargaTotal.toString()
+                    Log.v("total", "Total price is $hargaTotal")
                 }
-                tvJumlah.text = hargaTotal.toString()
+                }
+
 
             }
 
@@ -268,15 +324,11 @@ class CartActivity() : AppCompatActivity() {
                 hargaTotal,
                 status
         )
-
     }
 
     private fun setData(key: String, harga: Int, jenis: String, desc: String, jumlah: Int, url: String): getCart {
         return getCart(
                 key, harga, jenis, desc, jumlah, url
         )
-
     }
-
-
 }

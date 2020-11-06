@@ -1,14 +1,16 @@
 package com.bagicode.alfa3.user.home.payment
 
-import android.app.Activity
-import android.app.ProgressDialog
+import android.app.*
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import com.bagicode.alfa3.R
 import com.bagicode.alfa3.user.home.HomeActivity
 import com.bagicode.alfa3.utils.Preferences
@@ -130,6 +132,8 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
                             mFirebaseDatabase.child("cart")
                                 .removeValue()
 
+                            showNotif()
+
                             startActivity(Intent(this@PaymentActivity, HomeActivity::class.java))
                         }
                         // Update Data, FayFay Version
@@ -149,6 +153,8 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
 
 
             }
+
+
 
         }
     }
@@ -229,6 +235,54 @@ class PaymentActivity : AppCompatActivity(), PermissionListener{
         }
 
 
+    }
+
+    private fun showNotif() {
+        val NOTIFICATION_CHANNEL_ID = "Channel_Alfa3_Notif"
+        val context = this.applicationContext
+        var notificationManager =
+            context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channelName = "Alfa 3 Notif Channel"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+
+            val mChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, importance)
+            notificationManager.createNotificationChannel(mChannel)
+        }
+
+//        val mIntent = Intent(this, CheckoutSuccessActivity::class.java)
+//        val bundle = Bundle()
+//        bundle.putString("id", "id_film")
+//        mIntent.putExtras(bundle)
+
+        val mIntent = Intent(this, HomeActivity::class.java)
+//        val bundle = Bundle()
+//        bundle.putParcelable("data", datas)
+//        mIntent.putExtras(bundle)
+
+        val pendingIntent =
+            PendingIntent.getActivity(this, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        builder.setContentIntent(pendingIntent)
+            .setSmallIcon(R.drawable.logo_alfa3)
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    this.resources,
+                    R.drawable.logo_alfa3
+                )
+            )
+            .setTicker("notif alfa3 starting")
+            .setAutoCancel(true)
+            .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
+            .setLights(Color.RED, 3000, 3000)
+            .setDefaults(Notification.DEFAULT_SOUND)
+            .setContentTitle("Produk berhasil terbeli")
+            .setContentText("Produk sudah masuk, silahkan tunggu konfirmasi dari admin! Terima Kasih!")
+
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(115, builder.build())
     }
 
 }

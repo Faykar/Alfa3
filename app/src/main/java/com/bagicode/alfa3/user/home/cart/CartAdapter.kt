@@ -72,10 +72,10 @@ open class CartAdapter(private var data: List<getCart>,
             tvJenis.text = data.jenis
             tvQty.text = data.jumlah.toString()
 
-            tvHarga.text = formatRupiah.format(data.harga!!.toDouble()* Qty)
+            tvHarga.text = formatRupiah.format(data.harga!!.toDouble() * Qty)
 
             btn_min.setOnClickListener {
-                Qty = (Qty - 1).coerceAtLeast(0)
+                Qty = (Qty - 1).coerceAtLeast(1)
                 tvQty.text = Qty.toString()
                 hashMap["jumlah"] = Qty
                 tvHarga.text = formatRupiah.format(data.harga!!.toDouble() * Qty)
@@ -84,19 +84,19 @@ open class CartAdapter(private var data: List<getCart>,
                     .updateChildren(hashMap as Map<String, Int>)
             }
             btn_plus.setOnClickListener {
-                Qty = (Qty + 1).coerceAtMost(10)
+                Qty = (Qty + 1).coerceAtMost(3)
                 tvQty.text = Qty.toString()
                 hashMap["jumlah"] = Qty
                 tvHarga.text = formatRupiah.format(data.harga!!.toDouble() * Qty)
 
                 mDatabase
                     .updateChildren(hashMap as Map<String, Int>)
-
-
             }
+
             Glide.with(context)
                 .load(data.url)
                 .into(tvImage)
+
             Log.v("biasa", "Data Cartnya nih   "+data)
 
 //            itemView.setOnClickListener {
